@@ -1,0 +1,131 @@
+/* ==========================================
+   CONFIRM MODAL STYLES — Blurry Modal Cards
+   ========================================== */
+
+.confirm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.confirm-modal-card {
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-xl);
+  max-width: 440px;
+  width: 100%;
+  overflow: hidden;
+  animation: modalScaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalScaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.confirm-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 0.5rem 1.25rem;
+}
+
+.confirm-modal-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.confirm-modal-icon-badge.danger {
+  background: #fef2f2;
+  color: var(--danger);
+}
+
+.confirm-modal-icon-badge.info {
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.confirm-modal-header h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.confirm-modal-body {
+  padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+}
+
+.confirm-modal-body p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.confirm-modal-footer {
+  padding: 1rem 1.25rem;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.btn-danger-confirm {
+  background: var(--danger) !important;
+  color: white !important;
+}
+
+.btn-danger-confirm:hover {
+  background: var(--danger-dark) !important;
+}
+
+/* Dark Mode Overrides */
+.dark-theme .confirm-modal-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark-theme .confirm-modal-header h3 {
+  color: #f9fafb;
+}
+
+.dark-theme .confirm-modal-body p {
+  color: #9ca3af;
+}
+
+.dark-theme .confirm-modal-footer {
+  background: #111827;
+  border-top-color: #1f2937;
+}
+
+.dark-theme .confirm-modal-icon-badge.danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.dark-theme .confirm-modal-icon-badge.info {
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
+}

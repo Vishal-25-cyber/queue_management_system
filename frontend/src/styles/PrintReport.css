@@ -1,0 +1,135 @@
+/* ==========================================
+   PRINT REPORT STYLES — Print-Media Page Styles
+   ========================================== */
+
+.print-report-wrapper {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 99999;
+  overflow-y: auto;
+  padding: 3rem;
+  color: #111827;
+}
+
+.print-report-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.print-report-header {
+  border-bottom: 2px solid #111827;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.print-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.print-brand-icon {
+  font-size: 2rem;
+}
+
+.print-brand-text h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.print-brand-text span {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.print-report-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.print-report-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.print-report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 3rem;
+}
+
+.print-report-table th,
+.print-report-table td {
+  border: 1px solid #d1d5db;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.8125rem;
+  text-align: left;
+}
+
+.print-report-table th {
+  background: #f3f4f6;
+  font-weight: 700;
+  color: #111827;
+}
+
+.print-report-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.print-report-footer {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.print-copyright {
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* ==========================================
+   PRINT-MEDIA SPECIFIC OVERRIDES
+   ========================================== */
+
+@media print {
+  /* Hide standard screen layout wrappers completely */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Show only the print container and its descendants */
+  .print-report-wrapper,
+  .print-report-wrapper * {
+    visibility: visible;
+  }
+  
+  .print-report-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+  
+  /* Optimize table column breaks */
+  tr {
+    page-break-inside: avoid;
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+}
