@@ -254,7 +254,7 @@ const AdminQueueManagement = ({ queueData, setAlert, fetchAll }) => {
             style={{ maxWidth: 360 }}
           >
             {doctors.map(d => (
-              <option key={d.doctorId} value={d.doctorId}>{d.doctorName} ({d.department})</option>
+              <option key={d.doctorId} value={d.doctorId}>{d.doctorName} ({d.department?.name || d.department})</option>
             ))}
           </select>
         </div>

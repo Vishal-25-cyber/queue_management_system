@@ -70,7 +70,11 @@ exports.bookAppointment = async (req, res) => {
 exports.getMyAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find({ patientId: req.user.id })
-      .populate('doctorId', 'name department qualifications')
+      .populate({
+        path: 'doctorId',
+        select: 'name department qualifications',
+        populate: { path: 'department', select: 'name' }
+      })
       .sort({ appointmentDate: -1 });
 
     res.status(200).json({
@@ -207,7 +211,11 @@ exports.getAllAppointments = async (req, res) => {
 
     const appointments = await Appointment.find(filter)
       .populate('patientId', 'name email phone')
-      .populate('doctorId', 'name department')
+      .populate({
+        path: 'doctorId',
+        select: 'name department',
+        populate: { path: 'department', select: 'name' }
+      })
       .sort({ appointmentDate: 1, timeSlot: 1 });
 
     res.status(200).json({

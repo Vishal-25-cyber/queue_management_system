@@ -148,7 +148,7 @@ const AdminAppointmentManagement = ({ setAlert, fetchAll: refreshStats }) => {
                     </td>
                     <td>
                       <div>{app.doctorId?.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>{app.doctorId?.department}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>{app.doctorId?.department?.name || app.doctorId?.department}</div>
                     </td>
                     <td>
                       <strong>{new Date(app.appointmentDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</strong>

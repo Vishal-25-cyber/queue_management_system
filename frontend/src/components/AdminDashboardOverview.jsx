@@ -113,7 +113,7 @@ const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
                       </div>
                       <div>
                         <strong>{item.doctorName}</strong>
-                        <span className="overview-queue-sub">{item.department}</span>
+                        <span className="overview-queue-sub">{item.department?.name || item.department}</span>
                       </div>
                     </div>
                     <div className="overview-queue-stats">

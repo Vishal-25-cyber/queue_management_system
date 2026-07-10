@@ -75,14 +75,22 @@ exports.updateDoctor = async (req, res, next) => {
     }
 
     // Update allowed fields
-    const { qualifications, experience, consultationFee, availability, bio, isActive } = req.body;
+    const { name, department, qualifications, experience, consultationFee, availability, bio, isActive, phone } = req.body;
 
+    if (name !== undefined) doctor.name = name;
+    if (department !== undefined) doctor.department = department;
     if (qualifications !== undefined) doctor.qualifications = qualifications;
     if (experience !== undefined) doctor.experience = experience;
     if (consultationFee !== undefined) doctor.consultationFee = consultationFee;
     if (availability !== undefined) doctor.availability = availability;
     if (bio !== undefined) doctor.bio = bio;
     if (isActive !== undefined) doctor.isActive = isActive;
+
+    // If phone provided, also update the associated user record
+    if (phone !== undefined && doctor.userId) {
+      const User = require('../models/User');
+      await User.findByIdAndUpdate(doctor.userId, { phone });
+    }
 
     doctor = await doctor.save();
 
@@ -357,7 +365,11 @@ exports.getAllAppointments = async (req, res, next) => {
   try {
     const tokens = await Token.find()
       .populate('patientId', 'name email phone')
-      .populate('doctorId', 'name department')
+      .populate({
+        path: 'doctorId',
+        select: 'name department',
+        populate: { path: 'department', select: 'name' }
+      })
       .sort({ createdAt: -1 })
       .limit(100);
 
@@ -422,7 +434,7 @@ exports.getQueueStatus = async (req, res, next) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const doctors = await Doctor.find({ isActive: true });
+    const doctors = await Doctor.find({ isActive: true }).populate('department', 'name');
 
     const queueData = await Promise.all(
       doctors.map(async doctor => {

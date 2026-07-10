@@ -25,7 +25,8 @@ const AdminAnalytics = ({ queueData }) => {
   // 3. Data Processing for Department Distribution (Donut Chart)
   const deptCounts = {};
   queueData.forEach(d => {
-    deptCounts[d.department] = (deptCounts[d.department] || 0) + 1;
+    const deptName = d.department?.name || d.department || 'Unknown';
+    deptCounts[deptName] = (deptCounts[deptName] || 0) + 1;
   });
   const donutChartData = Object.keys(deptCounts).map(name => ({
     label: name,

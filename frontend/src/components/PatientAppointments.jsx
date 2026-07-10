@@ -138,7 +138,7 @@ const PatientAppointments = ({ setAlert }) => {
               <label>Select Doctor Specialist *</label>
               <select value={selectedDoctor} onChange={e => setSelectedDoctor(e.target.value)} required>
                 {doctors.map(d => (
-                  <option key={d._id} value={d._id}>{d.name} ({d.department})</option>
+                  <option key={d._id} value={d._id}>{d.name} ({d.department?.name || d.department})</option>
                 ))}
               </select>
             </div>
@@ -195,7 +195,7 @@ const PatientAppointments = ({ setAlert }) => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
                       <strong style={{ display: 'block', fontSize: '0.9rem' }}>{app.doctorId?.name}</strong>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 700 }}>{app.doctorId?.department}</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 700 }}>{app.doctorId?.department?.name || app.doctorId?.department}</span>
                     </div>
                     <span className={`status-pill ${app.status}`} style={{ fontSize: '0.7rem' }}>{app.status}</span>
                   </div>
