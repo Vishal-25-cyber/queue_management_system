@@ -1,131 +1,80 @@
-/* ==========================================
-   CONFIRM MODAL STYLES — Blurry Modal Cards
-   ========================================== */
+/* ===================================================
+   CONFIRM MODAL v2 — Dark Theme Confirm Dialog
+   =================================================== */
 
 .confirm-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  z-index: 10000;
+  background: rgba(5, 10, 20, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  z-index: 300;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
 }
 
-.confirm-modal-card {
-  background: white;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--gray-200);
-  box-shadow: var(--shadow-xl);
-  max-width: 440px;
+.confirm-modal {
+  background: rgba(17, 29, 50, 0.98);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 420px;
   width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(124,58,237,0.08);
+  animation: fadeInUp 0.3s ease;
+  position: relative;
   overflow: hidden;
-  animation: modalScaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  text-align: center;
 }
 
-@keyframes modalScaleUp {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+.confirm-modal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--cyan), transparent);
 }
 
-.confirm-modal-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem 1.25rem 0.5rem 1.25rem;
-}
-
-.confirm-modal-icon-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.confirm-modal-icon {
+  width: 60px; height: 60px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.75rem;
+  margin: 0 auto 1.25rem;
+}
+
+.confirm-modal-icon.danger  { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); }
+.confirm-modal-icon.warning { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); }
+.confirm-modal-icon.info    { background: rgba(6,182,212,0.12);  border: 1px solid rgba(6,182,212,0.25); }
+
+.confirm-modal-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.125rem;
   font-weight: 700;
-  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.625rem;
 }
 
-.confirm-modal-icon-badge.danger {
-  background: #fef2f2;
-  color: var(--danger);
-}
-
-.confirm-modal-icon-badge.info {
-  background: var(--primary-glow);
-  color: var(--primary);
-}
-
-.confirm-modal-header h3 {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin: 0;
-}
-
-.confirm-modal-body {
-  padding: 0.5rem 1.25rem 1.25rem 1.25rem;
-}
-
-.confirm-modal-body p {
+.confirm-modal-message {
+  color: var(--text-secondary);
   font-size: 0.9rem;
-  color: var(--gray-500);
-  margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
 }
 
-.confirm-modal-footer {
-  padding: 1rem 1.25rem;
-  background: var(--gray-50);
-  border-top: 1px solid var(--gray-100);
+.confirm-modal-actions {
   display: flex;
-  justify-content: flex-end;
   gap: 0.75rem;
+  justify-content: center;
 }
 
-.btn-danger-confirm {
-  background: var(--danger) !important;
-  color: white !important;
-}
-
-.btn-danger-confirm:hover {
-  background: var(--danger-dark) !important;
-}
-
-/* Dark Mode Overrides */
-.dark-theme .confirm-modal-card {
-  background: #1f2937;
-  border-color: #374151;
-}
-
-.dark-theme .confirm-modal-header h3 {
-  color: #f9fafb;
-}
-
-.dark-theme .confirm-modal-body p {
-  color: #9ca3af;
-}
-
-.dark-theme .confirm-modal-footer {
-  background: #111827;
-  border-top-color: #1f2937;
-}
-
-.dark-theme .confirm-modal-icon-badge.danger {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-}
-
-.dark-theme .confirm-modal-icon-badge.info {
-  background: rgba(37, 99, 235, 0.15);
-  color: #60a5fa;
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

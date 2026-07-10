@@ -116,7 +116,7 @@ const DoctorDashboard = () => {
       <div className="patient-content-container">
         <Navbar />
         
-        <main className="dashboard-main-content no-sidebar" style={{ paddingLeft: '3rem' }}>
+        <main className="dashboard-main-content no-sidebar">
           {alert && (
             <div style={{ marginBottom: '1.5rem' }}>
               <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />

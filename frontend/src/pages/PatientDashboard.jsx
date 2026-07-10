@@ -82,7 +82,7 @@ const PatientDashboard = () => {
       <div className="patient-content-container">
         <Navbar />
         
-        <main className="dashboard-main-content no-sidebar" style={{ paddingLeft: '3rem' }}>
+        <main className="dashboard-main-content no-sidebar">
           {alert && (
             <div style={{ marginBottom: '1.5rem' }}>
               <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />
@@ -223,8 +223,8 @@ const PatientDashboard = () => {
               <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.5rem' }}>
                 <History size={20} style={{ color: 'var(--primary)' }} /> Consultation Check-in History
               </h4>
-              <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', marginBottom: '1.5rem' }}>Full record of your check-in queue tokens and prescriptions</p>
-              <PatientAppointments setAlert={setAlert} />
+              <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', marginBottom: '1.5rem' }}>Full record of your pending and completed appointments</p>
+              <PatientAppointments setAlert={setAlert} showBooking={false} historyMode={true} />
             </div>
           )}
 

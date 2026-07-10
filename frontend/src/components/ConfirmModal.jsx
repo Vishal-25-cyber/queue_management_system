@@ -13,23 +13,19 @@ const ConfirmModal = ({
 }) => {
   if (!isOpen) return null;
 
+  const icons = { danger: '⚠️', warning: '⚠️', info: 'ℹ️' };
+
   return (
     <div className="confirm-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onCancel(); }}>
-      <div className="confirm-modal-card">
-        <div className="confirm-modal-header">
-          <span className={`confirm-modal-icon-badge ${type}`}>
-            {type === 'danger' ? '⚠' : 'ℹ'}
-          </span>
-          <h3>{title}</h3>
+      <div className="confirm-modal">
+        <div className={`confirm-modal-icon ${type}`}>
+          {icons[type] || icons.info}
         </div>
-        <div className="confirm-modal-body">
-          <p>{message}</p>
-        </div>
-        <div className="confirm-modal-footer">
-          <button className="btn-ghost" onClick={onCancel}>
-            {cancelText}
-          </button>
-          <button className={`btn-primary ${type === 'danger' ? 'btn-danger-confirm' : ''}`} onClick={onConfirm}>
+        <h3 className="confirm-modal-title">{title}</h3>
+        <p className="confirm-modal-message">{message}</p>
+        <div className="confirm-modal-actions">
+          <button className="btn-ghost" onClick={onCancel}>{cancelText}</button>
+          <button className={type === 'danger' ? 'btn-danger' : 'btn-primary'} onClick={onConfirm}>
             {confirmText}
           </button>
         </div>

@@ -152,6 +152,9 @@ exports.login = async (req, res, next) => {
         email: user.email,
         role: user.role,
         phone: user.phone,
+        age: user.age,
+        gender: user.gender,
+        bloodGroup: user.bloodGroup,
       },
     });
   } catch (error) {
@@ -186,7 +189,7 @@ exports.getMe = async (req, res, next) => {
 // @access  Private
 exports.updateProfile = async (req, res, next) => {
   try {
-    const { name, phone, age, gender, password } = req.body;
+    const { name, phone, age, gender, bloodGroup, currentPassword, password } = req.body;
     const user = await User.findById(req.user.id).select('+password');
 
     if (!user) {
@@ -200,8 +203,22 @@ exports.updateProfile = async (req, res, next) => {
     if (phone !== undefined) user.phone = phone;
     if (age !== undefined) user.age = Number(age) || null;
     if (gender !== undefined) user.gender = gender;
+    if (bloodGroup !== undefined) user.bloodGroup = bloodGroup;
     
     if (password) {
+      if (!currentPassword) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide your current password to change it',
+        });
+      }
+      const isMatch = await user.matchPassword(currentPassword);
+      if (!isMatch) {
+        return res.status(400).json({
+          success: false,
+          message: 'Incorrect current password',
+        });
+      }
       user.password = password; // pre-save hook will hash it!
     }
 
@@ -218,6 +235,7 @@ exports.updateProfile = async (req, res, next) => {
         role: user.role,
         age: user.age,
         gender: user.gender,
+        bloodGroup: user.bloodGroup,
       },
     });
   } catch (error) {

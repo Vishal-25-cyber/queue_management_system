@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema(
       enum: ['Male', 'Female', 'Other', null],
       default: null,
     },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-', 'Unknown', null],
+      default: null,
+    },
     role: {
       type: String,
       enum: ['patient', 'doctor', 'admin'],
