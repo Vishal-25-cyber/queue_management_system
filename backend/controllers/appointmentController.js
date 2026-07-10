@@ -339,3 +339,57 @@ exports.rejectAppointment = async (req, res) => {
     });
   }
 };
+
+// @desc    Get doctor's own appointments
+// @route   GET /api/appointments/doctor
+// @access  Private (Doctor only)
+exports.getDoctorAppointments = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({ userId: req.user.id });
+    if (!doctor) {
+      return res.status(404).json({ success: false, message: 'Doctor profile not found' });
+    }
+    const { status, date } = req.query;
+    const filter = { doctorId: doctor._id };
+    if (status) filter.status = status;
+    if (date) {
+      const searchDate = new Date(date);
+      searchDate.setHours(0, 0, 0, 0);
+      const nextDay = new Date(searchDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      filter.appointmentDate = { $gte: searchDate, $lt: nextDay };
+    }
+    const appointments = await Appointment.find(filter)
+      .populate('patientId', 'name email phone age gender bloodGroup')
+      .populate({ path: 'doctorId', select: 'name department', populate: { path: 'department', select: 'name' } })
+      .sort({ appointmentDate: 1, timeSlot: 1 });
+    res.status(200).json({ success: true, count: appointments.length, appointments });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Doctor marks appointment as completed
+// @route   PUT /api/appointments/doctor/:id/complete
+// @access  Private (Doctor only)
+exports.doctorCompleteAppointment = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({ userId: req.user.id });
+    if (!doctor) {
+      return res.status(404).json({ success: false, message: 'Doctor profile not found' });
+    }
+    const appointment = await Appointment.findOne({ _id: req.params.id, doctorId: doctor._id });
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Appointment not found' });
+    }
+    if (appointment.status === 'completed' || appointment.status === 'cancelled') {
+      return res.status(400).json({ success: false, message: Cannot complete a  appointment });
+    }
+    appointment.status = 'completed';
+    if (req.body.notes) appointment.notes = req.body.notes;
+    await appointment.save();
+    res.status(200).json({ success: true, message: 'Appointment marked as completed', appointment });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

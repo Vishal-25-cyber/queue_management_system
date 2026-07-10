@@ -42,8 +42,9 @@ const PATIENT_LINKS = [
 ];
 
 const DOCTOR_LINKS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'profile', label: 'Profile Settings', icon: User },
+  { id: 'dashboard',    label: 'Dashboard',        icon: LayoutDashboard },
+  { id: 'appointments', label: 'My Appointments',  icon: Calendar },
+  { id: 'profile',      label: 'Profile Settings', icon: User },
 ];
 
 const Sidebar = ({ activeTab, setActiveTab }) => {

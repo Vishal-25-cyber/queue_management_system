@@ -68,6 +68,9 @@ export const appointmentService = {
   adminGetAllAppointments: (params) => apiClient.get('/appointments/admin', { params }),
   adminApproveAppointment: (id) => apiClient.put(`/appointments/admin/${id}/approve`),
   adminRejectAppointment: (id) => apiClient.put(`/appointments/admin/${id}/reject`),
+  // Doctor-facing
+  getDoctorAppointments: (params) => apiClient.get('/appointments/doctor', { params }),
+  doctorCompleteAppointment: (id, data) => apiClient.put(`/appointments/doctor/${id}/complete`, data),
 };
 
 // Admin Queue Management Service
