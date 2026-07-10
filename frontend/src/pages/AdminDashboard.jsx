@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
+import PatientProfile from '../components/PatientProfile';
 import Alert from '../components/Alert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { adminService } from '../services/api';
@@ -54,45 +56,53 @@ const AdminDashboard = () => {
     <div className="app-dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
-      <main className="dashboard-main-content">
-        {alert && (
-          <div style={{ marginBottom: '1.5rem' }}>
-            <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />
-          </div>
-        )}
+      <div className="patient-content-container">
+        <Navbar />
         
-        {activeTab === 'overview' && (
-          <AdminDashboardOverview stats={stats} queueData={queueData} setActiveTab={setActiveTab} />
-        )}
-        
-        {activeTab === 'queue' && (
-          <AdminQueueManagement queueData={queueData} setAlert={setAlert} fetchAll={fetchAll} />
-        )}
-        
-        {activeTab === 'appointments' && (
-          <AdminAppointmentManagement setAlert={setAlert} fetchAll={fetchAll} />
-        )}
-        
-        {activeTab === 'patients' && (
-          <AdminPatientManagement setAlert={setAlert} />
-        )}
-        
-        {activeTab === 'doctors' && (
-          <AdminDoctorManagement setAlert={setAlert} />
-        )}
-        
-        {activeTab === 'departments' && (
-          <AdminDepartmentManagement setAlert={setAlert} />
-        )}
-        
-        {activeTab === 'analytics' && (
-          <AdminAnalytics queueData={queueData} />
-        )}
-        
-        {activeTab === 'reports' && (
-          <AdminReports setAlert={setAlert} />
-        )}
-      </main>
+        <main className="dashboard-main-content no-sidebar" style={{ paddingLeft: '3rem' }}>
+          {alert && (
+            <div style={{ marginBottom: '1.5rem' }}>
+              <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />
+            </div>
+          )}
+          
+          {activeTab === 'overview' && (
+            <AdminDashboardOverview stats={stats} queueData={queueData} setActiveTab={setActiveTab} />
+          )}
+          
+          {activeTab === 'queue' && (
+            <AdminQueueManagement queueData={queueData} setAlert={setAlert} fetchAll={fetchAll} />
+          )}
+          
+          {activeTab === 'appointments' && (
+            <AdminAppointmentManagement setAlert={setAlert} fetchAll={fetchAll} />
+          )}
+          
+          {activeTab === 'patients' && (
+            <AdminPatientManagement setAlert={setAlert} />
+          )}
+          
+          {activeTab === 'doctors' && (
+            <AdminDoctorManagement setAlert={setAlert} />
+          )}
+          
+          {activeTab === 'departments' && (
+            <AdminDepartmentManagement setAlert={setAlert} />
+          )}
+          
+          {activeTab === 'analytics' && (
+            <AdminAnalytics queueData={queueData} />
+          )}
+          
+          {activeTab === 'reports' && (
+            <AdminReports setAlert={setAlert} />
+          )}
+
+          {activeTab === 'profile' && (
+            <PatientProfile setAlert={setAlert} />
+          )}
+        </main>
+      </div>
     </div>
   );
 };

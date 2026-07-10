@@ -31,12 +31,18 @@ const ADMIN_LINKS = [
   { id: 'departments', label: 'Departments', icon: Building2 },
   { id: 'analytics', label: 'Analytics', icon: TrendingUp },
   { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'profile', label: 'Profile Settings', icon: User },
 ];
 
 const PATIENT_LINKS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'book', label: 'Book Appointment', icon: CalendarPlus },
   { id: 'history', label: 'My History', icon: History },
+  { id: 'profile', label: 'Profile Settings', icon: User },
+];
+
+const DOCTOR_LINKS = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'profile', label: 'Profile Settings', icon: User },
 ];
 
@@ -50,7 +56,12 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     localStorage.getItem('theme') === 'dark'
   );
 
-  const links = user?.role === 'admin' ? ADMIN_LINKS : PATIENT_LINKS;
+  let links = PATIENT_LINKS;
+  if (user?.role === 'admin') {
+    links = ADMIN_LINKS;
+  } else if (user?.role === 'doctor') {
+    links = DOCTOR_LINKS;
+  }
 
   const toggleDarkMode = () => {
     const nextMode = !darkMode;
