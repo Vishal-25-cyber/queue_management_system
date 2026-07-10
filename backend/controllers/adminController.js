@@ -452,6 +452,7 @@ exports.getQueueStatus = async (req, res, next) => {
           experience: doctor.experience,
           consultationFee: doctor.consultationFee,
           rating: doctor.rating,
+          availability: doctor.availability || [],
           waitingPatients: waitingCount,
           calledPatients: calledCount,
           completedConsultations: completedCount,

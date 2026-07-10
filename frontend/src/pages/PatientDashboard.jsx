@@ -4,52 +4,39 @@ import Sidebar from '../components/Sidebar';
 import Alert from '../components/Alert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { doctorService, patientService } from '../services/api';
-import { useQueue } from '../context/QueueContext';
 import { useAuth } from '../context/AuthContext';
 import { Search, Stethoscope, Star, Ticket, History } from 'lucide-react';
 
 // Subcomponents
-import PatientQueueTracker from '../components/PatientQueueTracker';
 import PatientAppointments from '../components/PatientAppointments';
 import PatientProfile from '../components/PatientProfile';
 
 import '../styles/Dashboard.css';
 
-const STATUS_LABELS = {
-  waiting: 'Waiting',
-  called: 'Called — Please proceed',
-  'in-consultation': 'In Consultation',
-  completed: 'Completed',
-  cancelled: 'Cancelled',
-  skipped: 'Skipped',
-};
-
 const PatientDashboard = () => {
   const { user } = useAuth();
-  const { joinQueue, bookToken } = useQueue();
   const [activeTab, setActiveTab] = useState('dashboard');
   
   const [doctors, setDoctors] = useState([]);
   const [filteredDoctors, setFiltered] = useState([]);
-  const [myToken, setMyToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState(null);
-  const [bookingLoading, setBookingLoading] = useState(null); // doctorId being booked
+  const [bookingLoading, setBookingLoading] = useState(null);
   const [selectedDept, setSelectedDept] = useState('all');
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchDoctors();
-    fetchMyToken();
   }, []);
 
-  useEffect(() => {
-    if (myToken) joinQueue(myToken.doctorId?._id || myToken.doctorId, user?.id, 'patient');
-  }, [myToken]);
+  const getDeptName = (dept) => {
+    if (!dept) return '';
+    return typeof dept === 'object' ? (dept.name || '') : dept;
+  };
 
   useEffect(() => {
     let list = doctors;
-    if (selectedDept !== 'all') list = list.filter(d => d.department === selectedDept);
+    if (selectedDept !== 'all') list = list.filter(d => getDeptName(d.department) === selectedDept);
     if (search.trim()) list = list.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
     setFiltered(list);
   }, [doctors, selectedDept, search]);
@@ -65,22 +52,11 @@ const PatientDashboard = () => {
     }
   };
 
-  const fetchMyToken = async () => {
-    try {
-      const res = await patientService.getMyToken();
-      setMyToken(res.data.token);
-    } catch {
-      setMyToken(null);
-    }
-  };
-
   const handleBook = async (doctorId) => {
     setBookingLoading(doctorId);
     try {
       const res = await patientService.bookToken(doctorId);
       const token = res.data.token;
-      setMyToken(token);
-      bookToken({ doctorId, tokenId: token._id, tokenNumber: token.tokenNumber, queuePosition: token.queuePosition });
       setAlert({ type: 'success', message: `Token #${token.tokenNumber} booked! You are in queue.` });
     } catch (err) {
       setAlert({ type: 'error', message: err.response?.data?.message || 'Booking failed.' });
@@ -89,19 +65,7 @@ const PatientDashboard = () => {
     }
   };
 
-  const handleCancel = async () => {
-    if (!myToken) return;
-    if (!window.confirm('Are you sure you want to cancel your queue token?')) return;
-    try {
-      await patientService.cancelToken(myToken._id);
-      setMyToken(null);
-      setAlert({ type: 'success', message: 'Token cancelled successfully.' });
-    } catch (err) {
-      setAlert({ type: 'error', message: err.response?.data?.message || 'Cancel failed.' });
-    }
-  };
-
-  const departments = ['all', ...new Set(doctors.map(d => d.department))];
+  const departments = ['all', ...new Set(doctors.map(d => getDeptName(d.department)).filter(Boolean))];
 
   if (loading) {
     return (
@@ -131,12 +95,7 @@ const PatientDashboard = () => {
               {/* Header */}
               <div className="dashboard-header" style={{ marginBottom: '2rem' }}>
                 <h1 className="dashboard-title">Welcome, {user?.name?.split(' ')[0]}</h1>
-                <p className="dashboard-subtitle">Track your today's appointments or book new tokens instantly</p>
-              </div>
-
-              {/* Queue Tracker Banner */}
-              <div style={{ marginBottom: '2.5rem' }}>
-                <PatientQueueTracker myToken={myToken} handleCancel={handleCancel} />
+                <p className="dashboard-subtitle">Find a doctor and book a walk-in token instantly</p>
               </div>
 
               {/* Search & Filter */}
@@ -199,7 +158,7 @@ const PatientDashboard = () => {
                         </div>
                         <div>
                           <div className="doctor-card-name">{doctor.name}</div>
-                          <span className="doctor-card-dept">{doctor.department}</span>
+                          <span className="doctor-card-dept">{doctor.department?.name || doctor.department}</span>
                         </div>
                       </div>
 
@@ -235,12 +194,10 @@ const PatientDashboard = () => {
                           className="btn-primary"
                           style={{ width: '100%' }}
                           onClick={() => handleBook(doctor._id)}
-                          disabled={!!myToken || bookingLoading === doctor._id}
+                          disabled={bookingLoading === doctor._id}
                         >
                           {bookingLoading === doctor._id ? (
                             'Processing…'
-                          ) : myToken ? (
-                            'Already in Queue'
                           ) : (
                             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'center', width: '100%' }}>
                               <Ticket size={16} /> Book Walk-in Token
@@ -267,7 +224,6 @@ const PatientDashboard = () => {
                 <History size={20} style={{ color: 'var(--primary)' }} /> Consultation Check-in History
               </h4>
               <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', marginBottom: '1.5rem' }}>Full record of your check-in queue tokens and prescriptions</p>
-              {/* Show simple patient history list */}
               <PatientAppointments setAlert={setAlert} />
             </div>
           )}

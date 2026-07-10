@@ -7,7 +7,9 @@ const Token = require('../models/Token');
 // @access  Public
 exports.getAllDoctors = async (req, res, next) => {
   try {
-    const doctors = await Doctor.find({ isActive: true }).populate('userId', 'name email phone');
+    const doctors = await Doctor.find({ isActive: true })
+      .populate('userId', 'name email phone')
+      .populate('department', 'name');
 
     res.status(200).json({
       success: true,
@@ -25,9 +27,14 @@ exports.getAllDoctors = async (req, res, next) => {
 // @desc    Get doctor by ID
 // @route   GET /api/doctors/:id
 // @access  Public
+// @desc    Get doctor by ID
+// @route   GET /api/doctors/:id
+// @access  Public
 exports.getDoctorById = async (req, res, next) => {
   try {
-    const doctor = await Doctor.findById(req.params.id).populate('userId', 'name email phone');
+    const doctor = await Doctor.findById(req.params.id)
+      .populate('userId', 'name email phone')
+      .populate('department', 'name');
 
     if (!doctor) {
       return res.status(404).json({

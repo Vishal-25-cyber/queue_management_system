@@ -97,8 +97,8 @@ const AdminDoctorManagement = ({ setAlert }) => {
   const openEditModal = async (doctor) => {
     setSelectedDoctorId(doctor.doctorId);
     
-    // Find the department ID matching the name
-    const matchedDept = departments.find(d => d.name === doctor.department)?._id || '';
+    // Find the department ID matching the name or ID
+    const matchedDept = departments.find(d => d._id.toString() === doctor.department?.toString() || d.name === doctor.department)?._id || '';
 
     setDoctorForm({
       name: doctor.doctorName,
@@ -235,7 +235,11 @@ const AdminDoctorManagement = ({ setAlert }) => {
                         </div>
                       </div>
                     </td>
-                    <td><span className="status-pill completed">{d.department}</span></td>
+                    <td>
+                      <span className="status-pill completed">
+                        {departments.find(dept => dept._id.toString() === d.department?.toString() || dept.name === d.department)?.name || d.department}
+                      </span>
+                    </td>
                     <td>{d.qualifications}</td>
                     <td>
                       <div>{d.experience} years</div>

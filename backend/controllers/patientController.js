@@ -66,6 +66,9 @@ exports.bookToken = async (req, res, next) => {
       date: today,
     });
 
+    // Fetch doctor with populated department name
+    const populatedDoctor = await Doctor.findById(doctorId).populate('department', 'name');
+
     res.status(201).json({
       success: true,
       message: 'Token booked successfully',
@@ -74,9 +77,10 @@ exports.bookToken = async (req, res, next) => {
         tokenNumber: token.tokenNumber,
         queuePosition: token.queuePosition,
         status: token.status,
-        doctor: {
+        doctorId: {
+          _id: doctor._id,
           name: doctor.name,
-          department: doctor.department,
+          department: populatedDoctor?.department || doctor.department,
         },
       },
     });
@@ -101,7 +105,14 @@ exports.getMyToken = async (req, res, next) => {
       patientId,
       date: { $gte: today },
       status: { $ne: 'cancelled' },
-    }).populate('doctorId', 'name department');
+    }).populate({
+      path: 'doctorId',
+      select: 'name department',
+      populate: {
+        path: 'department',
+        select: 'name',
+      },
+    });
 
     if (!token) {
       return res.status(404).json({

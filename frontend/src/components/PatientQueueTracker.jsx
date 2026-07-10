@@ -49,7 +49,7 @@ const PatientQueueTracker = ({ myToken, handleCancel }) => {
             {myToken.doctorId?.name || 'Dr. Practitioner'}
           </h2>
           <span style={{ opacity: 0.8, fontSize: '0.9rem', fontWeight: 600, display: 'block', marginBottom: '1.5rem' }}>
-            {myToken.doctorId?.department || 'Specialty Unit'}
+            {myToken.doctorId?.department?.name || myToken.doctorId?.department || 'Specialty Unit'}
           </span>
  
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
