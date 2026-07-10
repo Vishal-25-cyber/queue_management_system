@@ -5,8 +5,8 @@ const authorize = require('../middleware/authorize');
 
 const router = express.Router();
 
-// General fetch is open to authenticated users (so patients can view list when booking)
-router.get('/', auth, departmentController.getDepartments);
+// General fetch is open (publicly accessible so unregistered guests/registering users can view)
+router.get('/', departmentController.getDepartments);
 
 // Admin-only operations
 router.get('/stats', auth, authorize('admin'), departmentController.getDepartmentStats);
