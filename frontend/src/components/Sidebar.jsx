@@ -121,18 +121,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           </button>
         </div>
 
-        {/* User Card */}
-        {user?.role !== 'patient' && (
-          <div className="sidebar-user-card">
-            <div className="sidebar-user-avatar">{initials}</div>
-            {!isCollapsed && (
-              <div className="sidebar-user-info">
-                <span className="sidebar-user-name">{user?.name}</span>
-                <span className="sidebar-user-role">{user?.role}</span>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Links */}
         <nav className="sidebar-nav">

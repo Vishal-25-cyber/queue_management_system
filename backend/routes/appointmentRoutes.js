@@ -13,6 +13,8 @@ router.put('/:id/reschedule', auth, authorize('patient'), appointmentController.
 
 // Doctor routes (Doctor only)
 router.get('/doctor', auth, authorize('doctor'), appointmentController.getDoctorAppointments);
+router.put('/doctor/:id/accept', auth, authorize('doctor'), appointmentController.doctorAcceptAppointment);
+router.put('/doctor/:id/reject', auth, authorize('doctor'), appointmentController.doctorRejectAppointment);
 router.put('/doctor/:id/complete', auth, authorize('doctor'), appointmentController.doctorCompleteAppointment);
 
 // Admin routes (Admin only)

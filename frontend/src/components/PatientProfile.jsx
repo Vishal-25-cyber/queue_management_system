@@ -11,7 +11,7 @@ const PatientProfile = ({ setAlert }) => {
     phone: user?.phone || '',
     age: user?.age || '',
     gender: user?.gender || 'Male',
-    bloodGroup: user?.bloodGroup || '',
+    specialization: user?.specialization || '',
   });
 
   const [pwData, setPwData] = useState({
@@ -42,7 +42,7 @@ const PatientProfile = ({ setAlert }) => {
         phone: formData.phone,
         age: formData.age ? Number(formData.age) : null,
         gender: formData.gender,
-        bloodGroup: formData.bloodGroup || null
+        specialization: formData.specialization || null
       };
       const res = await authService.updateProfile(data);
       const updatedUser = { ...user, ...res.data.user };
@@ -153,18 +153,19 @@ const PatientProfile = ({ setAlert }) => {
                 </select>
               </div>
               <div className="form-group">
-                <label>Blood Group</label>
-                <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}>
-                  <option value="">Select Blood Group</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="Unknown">Unknown</option>
+                <label>Specialization</label>
+                <select name="specialization" value={formData.specialization} onChange={handleChange}>
+                  <option value="">Select Specialization</option>
+                  <option value="General Medicine">General Medicine</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Dermatology">Dermatology</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Gynecology">Gynecology</option>
+                  <option value="ENT">ENT</option>
+                  <option value="Neurology">Neurology</option>
+                  <option value="Psychiatry">Psychiatry</option>
+                  <option value="Radiology">Radiology</option>
                 </select>
               </div>
             </div>

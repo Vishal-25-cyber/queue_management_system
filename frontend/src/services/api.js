@@ -70,6 +70,8 @@ export const appointmentService = {
   adminRejectAppointment: (id) => apiClient.put(`/appointments/admin/${id}/reject`),
   // Doctor-facing
   getDoctorAppointments: (params) => apiClient.get('/appointments/doctor', { params }),
+  doctorAcceptAppointment: (id) => apiClient.put(`/appointments/doctor/${id}/accept`),
+  doctorRejectAppointment: (id, data) => apiClient.put(`/appointments/doctor/${id}/reject`, data),
   doctorCompleteAppointment: (id, data) => apiClient.put(`/appointments/doctor/${id}/complete`, data),
 };
 

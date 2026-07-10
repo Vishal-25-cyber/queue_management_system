@@ -15,7 +15,7 @@ import '../styles/Navbar.css';
 
 const NAV_LINKS = {
   patient: [],
-  doctor:  [{ to: '/doctor-dashboard',  label: 'Queue',           icon: ClipboardList }],
+  doctor: [],
   admin:   [
     { to: '/admin-dashboard', label: 'Dashboard', icon: BarChart3 },
   ],
@@ -80,18 +80,6 @@ const Navbar = () => {
                 <span className="user-role-text">{user.role}</span>
               </div>
             </div>
-            {user.role !== 'patient' && (
-              <>
-                <span className={`role-badge ${user.role}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                  {user.role === 'patient' ? <User size={14} /> : user.role === 'doctor' ? <Stethoscope size={14} /> : <Settings size={14} />} 
-                  {user.role}
-                </span>
-                <div className="navbar-divider" />
-                <button className="logout-btn" onClick={handleLogout} title="Sign out" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <LogOut size={16} /> Sign out
-                </button>
-              </>
-            )}
           </div>
         )}
       </div>

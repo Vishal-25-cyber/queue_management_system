@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    specialization: {
+      type: String,
+      default: null,
+    },
     experience: {
       type: Number,
       default: null,

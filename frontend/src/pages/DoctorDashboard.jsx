@@ -48,8 +48,11 @@ const DoctorDashboard = () => {
   const [currentToken, setCurrentToken]     = useState(null);
   const [consultNotes, setConsultNotes]     = useState('');
   const [showModal, setShowModal]           = useState(false);
-  const [completeModal, setCompleteModal]   = useState(null); // appointment to complete
+  const [completeModal, setCompleteModal]   = useState(null);
+  const [rejectModal, setRejectModal]       = useState(null);
   const [completeNotes, setCompleteNotes]   = useState('');
+  const [rejectReason, setRejectReason]     = useState('');
+  const [actionLoading, setActionLoading]   = useState(false);
   const [timer, setTimer]                   = useState(0);
   const { doctorOnline, callNextPatient, completeConsultation } = useQueue();
 
@@ -128,8 +131,57 @@ const DoctorDashboard = () => {
     }
   };
 
+  const handleAcceptAppointment = async (app) => {
+    setActionLoading(app._id);
+    try {
+      const res = await appointmentService.doctorAcceptAppointment(app._id);
+      const msg = res.data.token
+        ? `✅ Accepted! Patient added to today's queue.`
+        : `✅ Appointment accepted successfully!`;
+      setAlert({ type: 'success', message: msg });
+      await fetchAppointments();
+      if (res.data.token) await fetchData();
+    } catch (err) {
+      setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to accept appointment.' });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRejectAppointmentFromCard = async (app) => {
+    const confirmed = window.confirm('Reject this appointment?');
+    if (!confirmed) return;
+
+    setActionLoading(app._id);
+    try {
+      await appointmentService.doctorRejectAppointment(app._id, { reason: 'Rejected by doctor' });
+      setAlert({ type: 'error', message: '❌ Appointment rejected.' });
+      await fetchAppointments();
+    } catch (err) {
+      setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to reject appointment.' });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRejectAppointment = async () => {
+    if (!rejectModal) return;
+    setActionLoading(rejectModal._id);
+    try {
+      await appointmentService.doctorRejectAppointment(rejectModal._id, { reason: rejectReason });
+      setAlert({ type: 'error', message: '❌ Appointment rejected.' });
+      setRejectModal(null); setRejectReason('');
+      fetchAppointments();
+    } catch (err) {
+      setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to reject appointment.' });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const handleCompleteAppointment = async () => {
     if (!completeModal) return;
+    setActionLoading(completeModal._id);
     try {
       await appointmentService.doctorCompleteAppointment(completeModal._id, { notes: completeNotes });
       setAlert({ type: 'success', message: 'Appointment marked as completed!' });
@@ -137,6 +189,8 @@ const DoctorDashboard = () => {
       fetchAppointments();
     } catch (err) {
       setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to complete appointment.' });
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -405,7 +459,8 @@ const DoctorDashboard = () => {
                   {filteredAppointments.map(app => {
                     const cfg = STATUS_CONFIG[app.status] || STATUS_CONFIG.pending;
                     const StatusIcon = cfg.icon;
-                    const canComplete = ['pending', 'approved'].includes(app.status);
+                    const isPending = app.status === 'pending';
+                    const isApproved = app.status === 'approved';
                     return (
                       <div key={app._id} style={{
                         background: 'var(--card-bg)',
@@ -475,7 +530,24 @@ const DoctorDashboard = () => {
                         )}
 
                         {/* Action */}
-                        {canComplete && (
+                        {isPending && (
+                          <div style={{ marginTop: '0.875rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                            <button
+                              onClick={() => handleAcceptAppointment(app)}
+                              disabled={actionLoading === app._id}
+                              style={{ padding: '0.5rem 1.25rem', background: 'linear-gradient(135deg, #059669, #22c55e)', color: 'white', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: '0.8rem', cursor: actionLoading === app._id ? 'default' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', opacity: actionLoading === app._id ? 0.8 : 1 }}>
+                              <CheckCircle2 size={14} /> {actionLoading === app._id ? 'Processing…' : 'Accept Appointment'}
+                            </button>
+                            <button
+                              onClick={() => handleRejectAppointmentFromCard(app)}
+                              disabled={actionLoading === app._id}
+                              style={{ padding: '0.5rem 1.25rem', background: 'linear-gradient(135deg, #dc2626, #ef4444)', color: 'white', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: '0.8rem', cursor: actionLoading === app._id ? 'default' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                              <XCircle size={14} /> Reject Appointment
+                            </button>
+                          </div>
+                        )}
+
+                        {isApproved && (
                           <div style={{ marginTop: '0.875rem' }}>
                             <button
                               onClick={() => { setCompleteModal(app); setCompleteNotes(''); }}

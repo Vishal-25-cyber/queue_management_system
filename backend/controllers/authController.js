@@ -155,6 +155,7 @@ exports.login = async (req, res, next) => {
         age: user.age,
         gender: user.gender,
         bloodGroup: user.bloodGroup,
+        specialization: user.specialization,
       },
     });
   } catch (error) {
@@ -189,7 +190,7 @@ exports.getMe = async (req, res, next) => {
 // @access  Private
 exports.updateProfile = async (req, res, next) => {
   try {
-    const { name, phone, age, gender, bloodGroup, currentPassword, password } = req.body;
+    const { name, phone, age, gender, bloodGroup, specialization, currentPassword, password } = req.body;
     const user = await User.findById(req.user.id).select('+password');
 
     if (!user) {
@@ -203,6 +204,7 @@ exports.updateProfile = async (req, res, next) => {
     if (phone !== undefined) user.phone = phone;
     if (age !== undefined) user.age = Number(age) || null;
     if (gender !== undefined) user.gender = gender;
+    if (specialization !== undefined) user.specialization = specialization;
     if (bloodGroup !== undefined) user.bloodGroup = bloodGroup;
     
     if (password) {
@@ -236,6 +238,7 @@ exports.updateProfile = async (req, res, next) => {
         age: user.age,
         gender: user.gender,
         bloodGroup: user.bloodGroup,
+        specialization: user.specialization,
       },
     });
   } catch (error) {
