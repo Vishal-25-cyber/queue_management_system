@@ -383,7 +383,7 @@ exports.doctorCompleteAppointment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Appointment not found' });
     }
     if (appointment.status === 'completed' || appointment.status === 'cancelled') {
-      return res.status(400).json({ success: false, message: Cannot complete a  appointment });
+      return res.status(400).json({ success: false, message: `Cannot complete a ${appointment.status} appointment` });
     }
     appointment.status = 'completed';
     if (req.body.notes) appointment.notes = req.body.notes;
