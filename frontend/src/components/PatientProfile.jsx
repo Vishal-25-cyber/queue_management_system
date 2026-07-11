@@ -202,11 +202,11 @@ const PatientProfile = ({ setAlert }) => {
               Need urgent medical attention? Please contact our 24/7 helpline immediately.
             </p>
             <div style={{ marginTop: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Emergency Helpline</span>
                 <strong style={{ color: 'var(--danger-light)' }}>108 / 6381180488</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Support Email</span>
                 <span style={{ color: 'var(--text-primary)' }}>vishal250820@gmail.com</span>
               </div>
