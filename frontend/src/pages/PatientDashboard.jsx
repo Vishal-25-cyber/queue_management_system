@@ -188,23 +188,6 @@ const PatientDashboard = () => {
                           {doctor.bio}
                         </p>
                       )}
-
-                      <div className="doctor-card-actions">
-                        <button
-                          className="btn-primary"
-                          style={{ width: '100%' }}
-                          onClick={() => handleBook(doctor._id)}
-                          disabled={bookingLoading === doctor._id}
-                        >
-                          {bookingLoading === doctor._id ? (
-                            'Processing…'
-                          ) : (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', justifyContent: 'center', width: '100%' }}>
-                              <Ticket size={16} /> Book Walk-in Token
-                            </span>
-                          )}
-                        </button>
-                      </div>
                     </div>
                   ))}
                 </div>
