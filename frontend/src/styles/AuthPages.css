@@ -253,10 +253,10 @@
   letter-spacing: 0.05em;
 }
 
-.form-control,
-.form-group input,
-.form-group select,
-.form-group textarea {
+.auth-form-side .form-control,
+.auth-form-side .form-group input,
+.auth-form-side .form-group select,
+.auth-form-side .form-group textarea {
   width: 100%;
   padding: 0.875rem 1rem;
   background: #ffffff !important;
@@ -268,10 +268,10 @@
   transition: all 0.3s ease;
 }
 
-.form-control:focus,
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.auth-form-side .form-control:focus,
+.auth-form-side .form-group input:focus,
+.auth-form-side .form-group select:focus,
+.auth-form-side .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
   background: #ffffff;
@@ -279,12 +279,12 @@
 }
 
 /* FIX: Chrome autofill override */
-.form-control:-webkit-autofill,
-.form-control:-webkit-autofill:hover,
-.form-control:-webkit-autofill:focus,
-.form-group input:-webkit-autofill,
-.form-group input:-webkit-autofill:hover,
-.form-group input:-webkit-autofill:focus {
+.auth-form-side .form-control:-webkit-autofill,
+.auth-form-side .form-control:-webkit-autofill:hover,
+.auth-form-side .form-control:-webkit-autofill:focus,
+.auth-form-side .form-group input:-webkit-autofill,
+.auth-form-side .form-group input:-webkit-autofill:hover,
+.auth-form-side .form-group input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   -webkit-text-fill-color: #111827 !important;
   transition: background-color 5000s ease-in-out 0s;
