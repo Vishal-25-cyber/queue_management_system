@@ -9,9 +9,12 @@ import {
   User, 
   Stethoscope, 
   Settings, 
-  LogOut 
+  LogOut,
+  Sun,
+  Moon
 } from 'lucide-react';
 import '../styles/Navbar.css';
+import { useTheme } from '../context/ThemeContext';
 
 const NAV_LINKS = {
   patient: [],
@@ -21,6 +24,7 @@ const NAV_LINKS = {
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,7 +45,7 @@ const Navbar = () => {
         {/* Brand */}
         <div className="navbar-brand">
           <div className="navbar-brand-icon">
-            <Activity size={20} style={{ color: 'white' }} />
+            <Activity size={20} style={{ color: 'var(--text-primary)' }} />
           </div>
           <div className="navbar-brand-text">
             <span className="navbar-brand-title">CareSync</span>
@@ -71,6 +75,26 @@ const Navbar = () => {
         {/* Right section */}
         {user && (
           <div className="navbar-right">
+            <button 
+              className="theme-toggle-btn" 
+              onClick={toggleTheme}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '50%',
+                width: '36px',
+                height: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                transition: 'var(--transition)'
+              }}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
             <div className="navbar-user">
               <div className="user-avatar">{initials}</div>
               <div className="user-details">
