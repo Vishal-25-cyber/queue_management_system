@@ -5,17 +5,13 @@
 .auth-page {
   min-height: 100vh;
   display: flex;
-  background: url('/medical_auth_bg.png') center/cover no-repeat fixed;
+  background: var(--bg-base);
   position: relative;
 }
 
-/* Full screen dark overlay to ensure readability */
+/* Full screen dark overlay removed */
 .auth-page::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(5, 10, 20, 0.4);
-  z-index: 0;
+  display: none;
 }
 
 .auth-container {
@@ -29,12 +25,22 @@
 /* === Left Side (Branding) === */
 .auth-image-side {
   flex: 1;
+  background: url('/medical_auth_bg.png') center/cover no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 3rem;
   text-align: center;
+  position: relative;
+}
+
+.auth-image-side::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(5, 10, 20, 0.5); /* Overlay for text readability */
+  z-index: 0;
 }
 
 .auth-brand-logo {
@@ -43,6 +49,8 @@
   align-items: center;
   gap: 1.5rem;
   animation: fadeIn 1s ease-out;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-brand-logo-icon {
@@ -84,15 +92,13 @@
 .auth-form-side {
   width: 100%;
   max-width: 550px;
-  background: rgba(10, 15, 30, 0.75); /* Dark frosted glass */
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-surface);
+  border-left: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 4rem;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
   overflow-y: auto;
 }
 
@@ -110,12 +116,12 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: white;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
 .auth-form-header p {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
@@ -128,7 +134,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -140,10 +146,10 @@
 .form-group textarea {
   width: 100%;
   padding: 0.875rem 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-base);
+  border: 1px solid var(--glass-border);
   border-radius: 10px;
-  color: white;
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.3s ease;
@@ -155,14 +161,14 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 .form-control::placeholder,
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
 
 .btn-primary {
@@ -188,10 +194,10 @@
 /* Custom UI for Login Segmented Control (Role Selector) */
 .role-tab-container {
   display: flex;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-base);
   border-radius: 10px;
   padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
   margin-bottom: 1.5rem;
 }
 
@@ -199,7 +205,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   padding: 0.6rem 0;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -213,13 +219,13 @@
 }
 
 .role-tab-btn:hover {
-  color: white;
+  color: var(--text-primary);
 }
 
 .role-tab-btn.active {
   background: var(--primary);
   color: white;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 /* Custom UI for Quick Demo Cards */
@@ -286,8 +292,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-base);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -295,39 +301,40 @@
 }
 
 .role-option:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--primary-glow);
+  border-color: var(--primary);
 }
 
 .role-option.selected {
-  background: rgba(124, 58, 237, 0.2);
+  background: var(--primary-glow);
   border-color: var(--primary);
-  box-shadow: 0 0 0 1px var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .role-option-icon {
   width: 40px; height: 40px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-surface);
   display: flex; align-items: center; justify-content: center;
-  color: white;
+  color: var(--text-secondary);
   font-size: 1.25rem;
 }
 
 .role-option.selected .role-option-icon {
   background: var(--primary);
+  color: white;
 }
 
 .role-option-title {
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .role-option.selected .role-option-title {
-  color: white;
+  color: var(--primary);
 }
 
 .form-row,
@@ -342,7 +349,7 @@
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
 }
 
 .auth-links a {
