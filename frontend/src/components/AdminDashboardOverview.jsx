@@ -4,23 +4,14 @@ import {
   ClipboardList, 
   Stethoscope, 
   Calendar, 
-  Clock, 
-  CheckCircle2, 
-  Activity, 
-  PlusCircle
+  Activity
 } from 'lucide-react';
 
 const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
-  const getWaitTimeText = (mins) => {
-    if (!mins) return '—';
-    if (mins < 60) return `${mins} mins`;
-    return `${Math.floor(mins / 60)}h ${mins % 60}m`;
-  };
-
   return (
     <div className="overview-panel">
-      {/* Enriched Stats Grid */}
-      <div className="stats-grid">
+      {/* Essential Stats Grid */}
+      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
         <div className="stat-card">
           <div className="stat-card-header">
             <span className="stat-card-label">Patients Today</span>
@@ -64,34 +55,12 @@ const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
           <div className="stat-value">{stats?.totalAppointments || 0}</div>
           <p className="stat-card-meta">Scheduled bookings</p>
         </div>
-
-        <div className="stat-card">
-          <div className="stat-card-header">
-            <span className="stat-card-label">Avg. Waiting Time</span>
-            <div className="stat-card-icon blue">
-              <Clock size={20} style={{ color: '#2563eb' }} />
-            </div>
-          </div>
-          <div className="stat-value">{getWaitTimeText(stats?.averageWaitingTime || 15)}</div>
-          <p className="stat-card-meta">Predicted delay per token</p>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-card-header">
-            <span className="stat-card-label">Completed Consults</span>
-            <div className="stat-card-icon green">
-              <CheckCircle2 size={20} style={{ color: '#059669' }} />
-            </div>
-          </div>
-          <div className="stat-value success">{stats?.completedConsultations || 0}</div>
-          <p className="stat-card-meta">Consultations done today</p>
-        </div>
       </div>
 
-      {/* Main content splitter */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', marginTop: '1.5rem' }} className="mobile-stacked">
+      {/* Main content */}
+      <div style={{ marginTop: '2rem' }}>
         {/* Active Queues Panel */}
-        <div className="dashboard-sub-card">
+        <div className="dashboard-sub-card" style={{ width: '100%' }}>
           <div className="dashboard-sub-card-header">
             <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Activity size={18} style={{ color: 'var(--primary)' }} /> Real-time Queue Tracking
@@ -104,51 +73,38 @@ const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
                 <p>No active doctor queues at the moment.</p>
               </div>
             ) : (
-              <div className="overview-queue-list">
-                {queueData.slice(0, 4).map((item) => (
-                  <div key={item.doctorId} className="overview-queue-item">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <div className="overview-queue-avatar">
-                        <Stethoscope size={18} style={{ color: 'var(--primary)' }} />
+              <div className="overview-queue-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
+                {queueData.map((item) => (
+                  <div key={item.doctorId} className="overview-queue-item" style={{ border: '1px solid var(--gray-200)', borderRadius: '12px', padding: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                      <div className="overview-queue-avatar" style={{ backgroundColor: 'var(--blue-50)', padding: '0.5rem', borderRadius: '8px' }}>
+                        <Stethoscope size={20} style={{ color: 'var(--primary)' }} />
                       </div>
                       <div>
-                        <strong>{item.doctorName}</strong>
-                        <span className="overview-queue-sub">{item.department?.name || item.department}</span>
+                        <strong style={{ fontSize: '1rem', color: 'var(--gray-900)' }}>{item.doctorName}</strong>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--gray-500)' }}>{item.department?.name || item.department}</div>
                       </div>
                     </div>
-                    <div className="overview-queue-stats">
-                      <div className="overview-queue-stat-item">
-                        <span>Waiting</span>
-                        <strong className={item.waitingPatients > 0 ? 'warning-text' : 'success-text'}>
+                    <div className="overview-queue-stats" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'var(--gray-50)', padding: '0.75rem', borderRadius: '8px' }}>
+                      <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Waiting</span>
+                        <strong style={{ fontSize: '1.2rem' }} className={item.waitingPatients > 0 ? 'warning-text' : 'success-text'}>
                           {item.waitingPatients}
                         </strong>
                       </div>
-                      <div className="overview-queue-stat-item">
-                        <span>Called</span>
-                        <strong>{item.calledPatients}</strong>
+                      <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Called</span>
+                        <strong style={{ fontSize: '1.2rem' }}>{item.calledPatients}</strong>
                       </div>
-                      <div className="overview-queue-stat-item">
-                        <span>Completed</span>
-                        <strong className="success-text">{item.completedConsultations}</strong>
+                      <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Completed</span>
+                        <strong style={{ fontSize: '1.2rem' }} className="success-text">{item.completedConsultations}</strong>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Quick Tips / Dashboard Help */}
-        <div className="dashboard-sub-card">
-          <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-            <PlusCircle size={18} style={{ color: 'var(--primary)' }} /> Portal Quick Actions
-          </h4>
-          <div className="quick-actions-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <button className="btn-secondary-sm" onClick={() => setActiveTab('appointments')}>Review Pending Bookings</button>
-            <button className="btn-secondary-sm" onClick={() => setActiveTab('patients')}>Register New Patient</button>
-            <button className="btn-secondary-sm" onClick={() => setActiveTab('doctors')}>Check Doctor Slots</button>
-            <button className="btn-secondary-sm" onClick={() => setActiveTab('reports')}>Generate Report CSV</button>
           </div>
         </div>
       </div>

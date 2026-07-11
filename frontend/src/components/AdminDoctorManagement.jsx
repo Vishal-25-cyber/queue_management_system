@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { adminService, departmentService } from '../services/api';
+import { adminService, departmentService, doctorService } from '../services/api';
 import ConfirmModal from './ConfirmModal';
 import { Stethoscope, Edit, Trash2 } from 'lucide-react';
 
@@ -40,8 +40,20 @@ const AdminDoctorManagement = ({ setAlert }) => {
   const fetchDoctors = async () => {
     setLoading(true);
     try {
-      const res = await adminService.getQueueStatus();
-      setDoctors(res.data.queueData || []);
+      const res = await doctorService.getAllDoctors();
+      const mappedDoctors = (res.data.doctors || []).map(doc => ({
+        doctorId: doc._id,
+        doctorName: doc.name,
+        email: doc.userId?.email,
+        phone: doc.userId?.phone,
+        department: doc.department?.name || doc.department,
+        qualifications: doc.qualifications,
+        experience: doc.experience,
+        consultationFee: doc.consultationFee,
+        bio: doc.bio,
+        availability: doc.availability
+      }));
+      setDoctors(mappedDoctors);
     } catch (err) {
       setAlert({ type: 'error', message: 'Failed to load doctors.' });
     } finally {

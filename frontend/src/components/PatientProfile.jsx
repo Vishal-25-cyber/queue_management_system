@@ -12,6 +12,8 @@ const PatientProfile = ({ setAlert }) => {
     age: user?.age || '',
     gender: user?.gender || 'Male',
     bloodGroup: user?.bloodGroup || '',
+    specialization: user?.specialization || '',
+    consultationFee: user?.consultationFee || '',
   });
 
   const [pwData, setPwData] = useState({
@@ -42,7 +44,9 @@ const PatientProfile = ({ setAlert }) => {
         phone: formData.phone,
         age: formData.age ? Number(formData.age) : null,
         gender: formData.gender,
-        bloodGroup: formData.bloodGroup || null
+        ...(user?.role === 'patient' && { bloodGroup: formData.bloodGroup || null }),
+        ...(user?.role === 'doctor' && { specialization: formData.specialization || null }),
+        ...(user?.role === 'doctor' && { consultationFee: formData.consultationFee ? Number(formData.consultationFee) : 500 })
       };
       const res = await authService.updateProfile(data);
       const updatedUser = { ...user, ...res.data.user };
@@ -152,20 +156,34 @@ const PatientProfile = ({ setAlert }) => {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div className="form-group">
-                <label>Blood Group</label>
-                <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}>
-                  <option value="">Select Blood Group</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                </select>
-              </div>
+              {user?.role === 'patient' && (
+                <div className="form-group">
+                  <label>Blood Group</label>
+                  <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}>
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
+              )}
+              {user?.role === 'doctor' && (
+                <>
+                  <div className="form-group">
+                    <label>Specialization</label>
+                    <input type="text" name="specialization" value={formData.specialization} onChange={handleChange} placeholder="e.g. Cardiologist" />
+                  </div>
+                  <div className="form-group">
+                    <label>Consultation Fee (₹)</label>
+                    <input type="number" name="consultationFee" value={formData.consultationFee} onChange={handleChange} min={0} />
+                  </div>
+                </>
+              )}
             </div>
 
             <button type="submit" className="btn-primary" style={{ minWidth: 200 }} disabled={profileLoading}>

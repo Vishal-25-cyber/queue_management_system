@@ -142,6 +142,13 @@ exports.login = async (req, res, next) => {
 
     const token = generateToken(user._id, user.role);
 
+    let consultationFee;
+    if (user.role === 'doctor') {
+      const Doctor = require('../models/Doctor');
+      const doctorDoc = await Doctor.findOne({ userId: user._id });
+      if (doctorDoc) consultationFee = doctorDoc.consultationFee;
+    }
+
     res.status(200).json({
       success: true,
       message: 'Login successful',
@@ -156,6 +163,7 @@ exports.login = async (req, res, next) => {
         gender: user.gender,
         bloodGroup: user.bloodGroup,
         specialization: user.specialization,
+        consultationFee
       },
     });
   } catch (error) {
@@ -171,7 +179,12 @@ exports.login = async (req, res, next) => {
 // @access  Private
 exports.getMe = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).lean();
+    if (user && user.role === 'doctor') {
+      const Doctor = require('../models/Doctor');
+      const doctorDoc = await Doctor.findOne({ userId: user._id });
+      if (doctorDoc) user.consultationFee = doctorDoc.consultationFee;
+    }
 
     res.status(200).json({
       success: true,
@@ -190,7 +203,7 @@ exports.getMe = async (req, res, next) => {
 // @access  Private
 exports.updateProfile = async (req, res, next) => {
   try {
-    const { name, phone, age, gender, bloodGroup, specialization, currentPassword, password } = req.body;
+    const { name, phone, age, gender, bloodGroup, specialization, consultationFee, currentPassword, password } = req.body;
     const user = await User.findById(req.user.id).select('+password');
 
     if (!user) {
@@ -226,6 +239,18 @@ exports.updateProfile = async (req, res, next) => {
 
     await user.save();
 
+    let updatedConsultationFee = consultationFee;
+    if (user.role === 'doctor') {
+      const Doctor = require('../models/Doctor');
+      const doctorDoc = await Doctor.findOne({ userId: user._id });
+      if (doctorDoc) {
+        if (name !== undefined) doctorDoc.name = name;
+        if (consultationFee !== undefined) doctorDoc.consultationFee = Number(consultationFee);
+        await doctorDoc.save();
+        updatedConsultationFee = doctorDoc.consultationFee;
+      }
+    }
+
     res.status(200).json({
       success: true,
       message: 'Profile updated successfully',
@@ -239,6 +264,7 @@ exports.updateProfile = async (req, res, next) => {
         gender: user.gender,
         bloodGroup: user.bloodGroup,
         specialization: user.specialization,
+        consultationFee: updatedConsultationFee,
       },
     });
   } catch (error) {

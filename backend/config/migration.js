@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const Department = require('../models/Department');
 const Doctor = require('../models/Doctor');
+const User = require('../models/User');
+
+const DEFAULT_ADMIN = {
+  name: 'System Admin',
+  email: 'admin@hospital.com',
+  password: 'admin',
+  role: 'admin',
+  phone: '0000000000'
+};
 
 const DEFAULT_DEPARTMENTS = [
   { name: 'Cardiology', description: 'Specialized care for heart conditions and cardiovascular health.' },
@@ -59,6 +68,18 @@ const runMigration = async () => {
           console.log(`⚠ Warning: Doctor ${doctor.name} had unknown department "${currentDept}". Reset to Cardiology.`);
         }
       }
+    }
+
+    // 4. Seed fixed Admin user
+    let adminUser = await User.findOne({ email: DEFAULT_ADMIN.email });
+    if (!adminUser) {
+      await User.create(DEFAULT_ADMIN);
+      console.log(`✅ Seeded fixed Admin: ${DEFAULT_ADMIN.email} / ${DEFAULT_ADMIN.password}`);
+    } else {
+      // Ensure the fixed password is set just in case the user wants it to be FIXED.
+      adminUser.password = DEFAULT_ADMIN.password;
+      await adminUser.save();
+      console.log(`✅ Admin password verified for ${DEFAULT_ADMIN.email}`);
     }
 
     console.log(`✨ Seeding & Migration complete! Migrated ${migrateCount} legacy doctor references.\n`);
