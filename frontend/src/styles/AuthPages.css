@@ -239,11 +239,11 @@
 }
 
 /* General Form Elements */
-.form-group {
+.auth-form-side .form-group {
   margin-bottom: 1.25rem;
 }
 
-.form-group label {
+.auth-form-side .form-group label {
   display: block;
   font-size: 0.8rem;
   font-weight: 700;
@@ -296,7 +296,7 @@
   color: #9ca3af;
 }
 
-.btn-primary {
+.auth-form-side .btn-primary {
   width: 100%;
   padding: 1rem;
   background: var(--primary);
@@ -310,7 +310,7 @@
   margin-top: 1rem;
 }
 
-.btn-primary:hover {
+.auth-form-side .btn-primary:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
@@ -462,8 +462,8 @@
   color: var(--primary);
 }
 
-.form-row,
-.form-row-2 {
+.auth-form-side .form-row,
+.auth-form-side .form-row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
