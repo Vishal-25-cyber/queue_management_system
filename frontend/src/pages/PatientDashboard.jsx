@@ -171,7 +171,7 @@ const PatientDashboard = () => {
                           <span className="doctor-detail-label">Rating</span>
                           <span className="doctor-detail-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
                             <Star size={14} fill="#eab308" color="#eab308" /> {doctor.rating?.toFixed(1) || '4.5'} 
-                            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>({doctor.totalRatings || 0})</span>
+                            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>({doctor.reviews?.length || 0})</span>
                           </span>
                         </div>
                         <div className="doctor-detail-item">
