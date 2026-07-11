@@ -191,7 +191,7 @@ const AdminDepartmentManagement = ({ setAlert }) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label>Department Name *</label>
-                  <input name="name" value={deptForm.name} onChange={handleInputChange} placeholder="e.g. Ophthalmology, Oncology" required />
+                  <input type="text" name="name" value={deptForm.name} onChange={handleInputChange} placeholder="e.g. Ophthalmology, Oncology" required />
                 </div>
                 <div className="form-group">
                   <label>Description</label>
@@ -221,7 +221,7 @@ const AdminDepartmentManagement = ({ setAlert }) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label>Department Name *</label>
-                  <input name="name" value={deptForm.name} onChange={handleInputChange} required />
+                  <input type="text" name="name" value={deptForm.name} onChange={handleInputChange} required />
                 </div>
                 <div className="form-group">
                   <label>Description</label>
