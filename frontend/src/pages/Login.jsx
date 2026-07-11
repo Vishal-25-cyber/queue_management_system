@@ -47,18 +47,12 @@ const Login = () => {
         <div className="auth-image-side">
           <div className="auth-brand-display">
             <div className="auth-brand-card">
-              <div className="auth-logo-ring">
-                <div className="auth-brand-logo-icon">
-                  <Activity size={40} />
-                </div>
+              <div className="auth-brand-logo-icon">
+                <Activity size={40} />
               </div>
               <div className="auth-brand-logo-text">
                 <h1>CareSync</h1>
                 <span>Hospital Management</span>
-              </div>
-              <div className="auth-status-badge">
-                <div className="status-dot"></div>
-                System Online
               </div>
             </div>
           </div>
