@@ -251,6 +251,7 @@
   flex-direction: column;
   gap: 0.85rem;
   box-shadow: none;
+  height: 100%;
 }
 
 .doctor-card::before {
