@@ -32,7 +32,9 @@
   align-items: center;
   padding: 3rem;
   text-align: center;
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   overflow: hidden;
   
   /* Deep Shifting Gradient */
