@@ -278,6 +278,18 @@
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
+/* FIX: Chrome autofill override */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .form-control::placeholder,
 .form-group input::placeholder,
 .form-group textarea::placeholder {
