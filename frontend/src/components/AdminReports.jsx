@@ -149,13 +149,26 @@ const AdminReports = ({ setAlert }) => {
             <button 
               key={report.id}
               onClick={() => setActiveReport(report.id)}
-              className={`role-option ${activeReport === report.id ? 'selected' : ''}`}
-              style={{ padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', background: activeReport === report.id ? 'var(--primary)' : 'rgba(255,255,255,0.03)', border: activeReport === report.id ? 'none' : '1px solid rgba(255,255,255,0.1)', color: activeReport === report.id ? 'white' : 'var(--text-secondary)', borderRadius: '12px', transition: 'all 0.2s ease' }}
+              className={activeReport === report.id ? 'active-report-btn' : 'inactive-report-btn'}
+              style={{ 
+                padding: '1.25rem 1rem', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                gap: '0.75rem', 
+                background: activeReport === report.id ? 'var(--primary)' : 'rgba(255,255,255,0.02)', 
+                border: activeReport === report.id ? '1px solid var(--primary-light)' : '1px solid rgba(255,255,255,0.08)', 
+                color: activeReport === report.id ? 'white' : 'var(--text-secondary)', 
+                borderRadius: '12px', 
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+                boxShadow: activeReport === report.id ? '0 4px 12px rgba(37, 99, 235, 0.3)' : 'none'
+              }}
             >
-              <span style={{ display: 'inline-flex', justifyContent: 'center', padding: '0.25rem' }}>
+              <span style={{ display: 'inline-flex', justifyContent: 'center', padding: '0.35rem', background: activeReport === report.id ? 'rgba(255,255,255,0.2)' : 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
                 <ReportIcon size={24} style={{ color: activeReport === report.id ? 'white' : 'var(--primary-light, #60a5fa)' }} />
               </span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 700 }}>{report.label}</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 600, textAlign: 'center' }}>{report.label}</span>
             </button>
           );
         })}
