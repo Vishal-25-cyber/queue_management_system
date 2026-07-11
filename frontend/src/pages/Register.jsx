@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { departmentService } from '../services/api';
 import { Shield, Stethoscope, User, Activity } from 'lucide-react';
@@ -22,8 +22,17 @@ const Register = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
-  const { register } = useAuth();
-  const navigate = useNavigate();
+  const { register, isAuthenticated, user } = useAuth();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === 'patient') navigate('/patient-dashboard', { replace: true });
+      else if (user.role === 'doctor') navigate('/doctor-dashboard', { replace: true });
+      else if (user.role === 'admin') navigate('/admin-dashboard', { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
 
   useEffect(() => {
     const fetchDepts = async () => {
@@ -91,7 +100,7 @@ const Register = () => {
     const result = await register(submitData);
 
     if (result.success) {
-      navigate('/login', { state: { message: 'Account created successfully! Please log in.' } });
+      navigate('/login', { replace: true, state: { message: 'Account created successfully! Please log in.' } });
     } else {
       setError(result.error);
     }

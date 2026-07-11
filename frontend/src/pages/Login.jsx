@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Activity, Zap, Stethoscope, Ticket, BarChart3, Shield, User } from 'lucide-react';
@@ -9,10 +9,18 @@ const Login = () => {
   const [selectedRole, setSelectedRole] = useState('patient');
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
-  const { login } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
   const navigate  = useNavigate();
   const location  = useLocation();
   const [success, setSuccess]   = useState(location.state?.message || '');
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === 'patient') navigate('/patient-dashboard', { replace: true });
+      else if (user.role === 'doctor') navigate('/doctor-dashboard', { replace: true });
+      else if (user.role === 'admin') navigate('/admin-dashboard', { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const handleChange = (e) => {
     setError('');
@@ -30,9 +38,9 @@ const Login = () => {
 
     if (result.success) {
       const role = result.user.role;
-      if (role === 'patient') navigate('/patient-dashboard');
-      else if (role === 'doctor') navigate('/doctor-dashboard');
-      else if (role === 'admin') navigate('/admin-dashboard');
+      if (role === 'patient') navigate('/patient-dashboard', { replace: true });
+      else if (role === 'doctor') navigate('/doctor-dashboard', { replace: true });
+      else if (role === 'admin') navigate('/admin-dashboard', { replace: true });
     } else {
       setError(result.error);
     }

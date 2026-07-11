@@ -5,7 +5,7 @@ import Alert from '../components/Alert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { doctorService, patientService, departmentService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { Search, Stethoscope, Star, Ticket, History } from 'lucide-react';
+import { Search, Stethoscope, Star, Ticket, History, XCircle, AlertCircle } from 'lucide-react';
 
 // Subcomponents
 import PatientAppointments from '../components/PatientAppointments';
@@ -196,23 +196,26 @@ const PatientDashboard = () => {
                         </p>
                       )}
 
-                      <div className="doctor-card-footer" style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
+                      <div className="doctor-card-footer" style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                         {doctor.isAvailableToday === false ? (
-                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--danger-bg)', color: 'var(--danger)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Unavailable Today</span>
+                          <button style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', background: 'rgba(239,68,68,0.1)', color: '#f87171', border: '1px solid rgba(239,68,68,0.2)', fontSize: '0.9rem', fontWeight: 700, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', cursor: 'not-allowed' }} disabled>
+                            <XCircle size={16} /> Unavailable Today
+                          </button>
                         ) : doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10) ? (
-                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--warning-bg)', color: 'var(--warning-dark)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Tokens Full</span>
+                          <button style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', background: 'rgba(245,158,11,0.1)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.2)', fontSize: '0.9rem', fontWeight: 700, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', cursor: 'not-allowed' }} disabled>
+                            <AlertCircle size={16} /> Tokens Full
+                          </button>
                         ) : (
-                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--success-bg)', color: 'var(--success)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Available</span>
+                          <button 
+                            className="btn-primary"
+                            disabled={bookingLoading === doctor._id}
+                            onClick={() => handleBook(doctor._id)}
+                            style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', fontSize: '0.9rem', fontWeight: 700, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', transition: 'all 0.3s' }}
+                          >
+                            <Ticket size={16} /> 
+                            {bookingLoading === doctor._id ? 'Booking...' : 'Book Token'}
+                          </button>
                         )}
-                        <button 
-                          className="btn-primary"
-                          disabled={bookingLoading === doctor._id || doctor.isAvailableToday === false || doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10)}
-                          onClick={() => handleBook(doctor._id)}
-                          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem', fontSize: '0.85rem', opacity: (doctor.isAvailableToday === false || doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10)) ? 0.5 : 1 }}
-                        >
-                          <Ticket size={16} /> 
-                          {bookingLoading === doctor._id ? 'Booking...' : 'Book Token'}
-                        </button>
                       </div>
                     </div>
                   ))}
