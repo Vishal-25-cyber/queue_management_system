@@ -202,13 +202,13 @@ const PatientProfile = ({ setAlert }) => {
               Need urgent medical attention? Please contact our 24/7 helpline immediately.
             </p>
             <div style={{ marginTop: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Emergency Helpline</span>
-                <strong style={{ color: 'var(--danger-light)' }}>108 / +91 91100 91100</strong>
+                <strong style={{ color: 'var(--danger-light)' }}>108 / 6381180488</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Support Email</span>
-                <span style={{ color: 'var(--text-primary)' }}>support@caresync.com</span>
+                <span style={{ color: 'var(--text-primary)' }}>vishal250820@gmail.com</span>
               </div>
             </div>
           </div>
