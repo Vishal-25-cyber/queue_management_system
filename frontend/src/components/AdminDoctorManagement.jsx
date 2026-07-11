@@ -296,7 +296,7 @@ const AdminDoctorManagement = ({ setAlert }) => {
                 <div className="form-row">
                   <div className="form-group">
                     <label>Full Name *</label>
-                    <input name="name" value={doctorForm.name} onChange={handleInputChange} placeholder="Dr. First Last" required />
+                    <input type="text" name="name" value={doctorForm.name} onChange={handleInputChange} placeholder="Dr. First Last" required />
                   </div>
                   <div className="form-group">
                     <label>Assign Department *</label>
@@ -315,7 +315,7 @@ const AdminDoctorManagement = ({ setAlert }) => {
                   </div>
                   <div className="form-group">
                     <label>Phone Number *</label>
-                    <input name="phone" value={doctorForm.phone} onChange={handleInputChange} placeholder="10-digit phone" pattern="\d{10}" maxLength={10} required />
+                    <input type="tel" name="phone" value={doctorForm.phone} onChange={handleInputChange} placeholder="10-digit phone" pattern="\d{10}" maxLength={10} required />
                   </div>
                 </div>
 
@@ -326,7 +326,7 @@ const AdminDoctorManagement = ({ setAlert }) => {
                   </div>
                   <div className="form-group">
                     <label>Qualifications *</label>
-                    <input name="qualifications" value={doctorForm.qualifications} onChange={handleInputChange} placeholder="e.g. MBBS, MD (Cardio)" required />
+                    <input type="text" name="qualifications" value={doctorForm.qualifications} onChange={handleInputChange} placeholder="e.g. MBBS, MD (Cardio)" required />
                   </div>
                 </div>
 
