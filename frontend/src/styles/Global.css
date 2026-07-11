@@ -105,6 +105,36 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   font-size: 16px;
+  position: relative;
+}
+
+@keyframes floatBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: floatBackground 15s ease infinite;
+  pointer-events: none;
 }
 
 a { color: var(--primary-light); text-decoration: none; transition: var(--transition); }
