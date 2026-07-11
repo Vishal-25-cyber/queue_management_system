@@ -16,7 +16,8 @@ import {
   HeartPulse,
   LayoutDashboard,
   CalendarPlus,
-  History
+  History,
+  Award
 } from 'lucide-react';
 import '../styles/Sidebar.css';
 
@@ -42,6 +43,7 @@ const PATIENT_LINKS = [
 const DOCTOR_LINKS = [
   { id: 'dashboard',    label: 'Dashboard',        icon: LayoutDashboard },
   { id: 'appointments', label: 'My Appointments',  icon: Calendar },
+  { id: 'reviews',      label: 'My Reviews',       icon: Award },
   { id: 'profile',      label: 'Profile Settings', icon: User },
 ];
 

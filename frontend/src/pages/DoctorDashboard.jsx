@@ -301,31 +301,6 @@ const DoctorDashboard = () => {
                 </div>
               )}
 
-              {/* Recent Reviews */}
-              {stats?.reviews && stats.reviews.length > 0 && (
-                <div className="dashboard-sub-card" style={{ marginBottom: '1.5rem', borderLeft: '3px solid #eab308' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                    <Award size={18} style={{ color: '#eab308' }} />
-                    <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', margin: 0 }}>
-                      Patient Reviews
-                    </h3>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                    {stats.reviews.slice(-5).reverse().map((review, idx) => (
-                      <div key={idx} style={{ padding: '0.875rem', background: 'rgba(255,255,255,0.03)', borderRadius: 10, border: `1px solid rgba(234,179,8,0.2)` }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.35rem' }}>
-                          <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{review.patientName || 'Patient'}</div>
-                          <div style={{ color: '#eab308', fontSize: '0.85rem' }}>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</div>
-                        </div>
-                        {review.comment && (
-                          <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontStyle: 'italic', marginTop: '0.4rem' }}>"{review.comment}"</div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Active Consultation Banner */}
               {currentToken && (
                 <div className="consultation-active">
@@ -586,6 +561,56 @@ const DoctorDashboard = () => {
                   })}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ── REVIEWS TAB ── */}
+          {activeTab === 'reviews' && (
+            <div className="dashboard-container">
+              <div className="dashboard-header">
+                <h1 className="dashboard-title" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <Award size={30} style={{ color: '#eab308' }} /> My Reviews
+                </h1>
+                <p className="dashboard-subtitle">See what your patients are saying about you</p>
+              </div>
+              
+              <div className="dashboard-sub-card" style={{ borderLeft: '3px solid #eab308' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                  <Award size={20} style={{ color: '#eab308' }} />
+                  <h3 style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-primary)', margin: 0 }}>
+                    Patient Reviews
+                  </h3>
+                </div>
+                
+                {(!stats?.reviews || stats.reviews.length === 0) ? (
+                  <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>⭐</div>
+                    <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', margin: '0 0 0.4rem' }}>
+                      No reviews yet
+                    </p>
+                    <p style={{ fontSize: '0.8rem', margin: 0 }}>When patients review their consultations, they will appear here.</p>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {stats.reviews.slice().reverse().map((review, idx) => (
+                      <div key={idx} style={{ padding: '1.25rem', background: 'rgba(255,255,255,0.03)', borderRadius: 12, border: `1px solid rgba(234,179,8,0.2)` }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+                          <div>
+                            <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.2rem' }}>{review.patientName || 'Patient'}</div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                              {new Date(review.createdAt || Date.now()).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            </div>
+                          </div>
+                          <div style={{ color: '#eab308', fontSize: '1rem', letterSpacing: '0.1em' }}>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</div>
+                        </div>
+                        {review.comment && (
+                          <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontStyle: 'italic', marginTop: '0.75rem', lineHeight: 1.5 }}>"{review.comment}"</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
