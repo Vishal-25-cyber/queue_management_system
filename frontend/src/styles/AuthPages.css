@@ -102,6 +102,14 @@
   backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
   color: white;
+  animation: logoHeartbeat 2.5s ease-in-out infinite;
+}
+
+@keyframes logoHeartbeat {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
+  15% { transform: scale(1.1); box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.4); }
+  30% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  100% { transform: scale(1); }
 }
 
 .auth-brand-logo-text {
@@ -113,8 +121,19 @@
   font-size: 3.2rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: white;
-  letter-spacing: -0.05em; /* Tighter letter spacing for modern tech look */
+  letter-spacing: -0.05em;
+  
+  /* Elegant Shimmering Shine */
+  background: linear-gradient(120deg, #ffffff 40%, var(--cyan) 50%, #ffffff 60%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: elegantShine 4s linear infinite;
+}
+
+@keyframes elegantShine {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }
 
 .auth-brand-logo-text span {
@@ -157,18 +176,19 @@
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
-/* === Right Side (Form) === */
+/* === Right Side (Form) - Light Theme === */
 .auth-form-side {
   width: 100%;
   max-width: 550px;
-  background: var(--bg-surface);
-  border-left: 1px solid var(--glass-border);
+  background: #ffffff;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 4rem;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.05);
   overflow-y: auto;
+  color: #111827;
 }
 
 .auth-form-wrapper {
@@ -185,12 +205,12 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: #111827;
   letter-spacing: -0.02em;
 }
 
 .auth-form-header p {
-  color: var(--text-secondary);
+  color: #4b5563;
   font-size: 1rem;
 }
 
@@ -203,7 +223,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #374151;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -215,10 +235,10 @@
 .form-group textarea {
   width: 100%;
   padding: 0.875rem 1rem;
-  background: var(--bg-base);
-  border: 1px solid var(--glass-border);
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
-  color: var(--text-primary);
+  color: #111827;
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.3s ease;
@@ -230,14 +250,14 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary);
-  background: var(--bg-surface);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
 .form-control::placeholder,
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: var(--text-muted);
+  color: #9ca3af;
 }
 
 .btn-primary {
@@ -263,10 +283,10 @@
 /* Custom UI for Login Segmented Control (Role Selector) */
 .role-tab-container {
   display: flex;
-  background: var(--bg-base);
+  background: #f3f4f6;
   border-radius: 10px;
   padding: 4px;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #e5e7eb;
   margin-bottom: 1.5rem;
 }
 
@@ -274,7 +294,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--text-secondary);
+  color: #6b7280;
   padding: 0.6rem 0;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -288,13 +308,13 @@
 }
 
 .role-tab-btn:hover {
-  color: var(--text-primary);
+  color: #111827;
 }
 
 .role-tab-btn.active {
   background: var(--primary);
   color: white;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Custom UI for Quick Demo Cards */
@@ -361,8 +381,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 0.5rem;
-  background: var(--bg-base);
-  border: 1px solid var(--glass-border);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -370,12 +390,12 @@
 }
 
 .role-option:hover {
-  background: var(--primary-glow);
-  border-color: var(--primary);
+  background: #f9fafb;
+  border-color: #d1d5db;
 }
 
 .role-option.selected {
-  background: var(--primary-glow);
+  background: rgba(124, 58, 237, 0.05);
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary);
 }
@@ -383,9 +403,9 @@
 .role-option-icon {
   width: 40px; height: 40px;
   border-radius: 10px;
-  background: var(--bg-surface);
+  background: #f3f4f6;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-secondary);
+  color: #4b5563;
   font-size: 1.25rem;
 }
 
@@ -397,7 +417,7 @@
 .role-option-title {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #4b5563;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -418,7 +438,7 @@
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #4b5563;
 }
 
 .auth-links a {
