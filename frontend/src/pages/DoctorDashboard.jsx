@@ -379,22 +379,6 @@ const DoctorDashboard = () => {
                 )}
               </div>
 
-              {/* Workflow guide */}
-              <div className="section-header">
-                <h2 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <div className="section-title-icon"><Info size={18} style={{ color: 'white' }} /></div>
-                  Daily Workflow
-                </h2>
-              </div>
-              <div className="info-card">
-                <ol>
-                  <li><strong>Check Appointments:</strong> View today's scheduled appointments in the Appointments tab</li>
-                  <li><strong>Check Queue:</strong> See all waiting patients in the queue panel above</li>
-                  <li><strong>Call Patient:</strong> Click "Call Next Patient" when you're ready</li>
-                  <li><strong>Consult:</strong> The timer tracks consultation duration automatically</li>
-                  <li><strong>Complete:</strong> Click "Complete Consultation" to move to the next patient</li>
-                </ol>
-              </div>
             </div>
           )}
 

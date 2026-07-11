@@ -363,11 +363,11 @@
 /* ── Queue Section ── */
 .queue-section {
   background: rgba(22, 37, 61, 0.75);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(124, 58, 237, 0.25);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
+  margin-bottom: 2rem;
 }
 
 .queue-section-header {
