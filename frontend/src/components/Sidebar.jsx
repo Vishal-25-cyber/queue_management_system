@@ -10,8 +10,6 @@ import {
   TrendingUp,
   FileText,
   User,
-  Sun,
-  Moon,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -53,9 +51,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   const [isCollapsed, setIsCollapsed] = useState(
     localStorage.getItem('sidebar-collapsed') === 'true'
   );
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem('theme') === 'dark'
-  );
 
   let links = PATIENT_LINKS;
   if (user?.role === 'admin') {
@@ -63,17 +58,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   } else if (user?.role === 'doctor') {
     links = DOCTOR_LINKS;
   }
-
-  const toggleDarkMode = () => {
-    const nextMode = !darkMode;
-    setDarkMode(nextMode);
-    localStorage.setItem('theme', nextMode ? 'dark' : 'light');
-    if (nextMode) {
-      document.documentElement.classList.add('dark-theme');
-    } else {
-      document.documentElement.classList.remove('dark-theme');
-    }
-  };
 
   const toggleCollapse = () => {
     const nextCollapsed = !isCollapsed;
@@ -142,20 +126,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 
         {/* Footer actions */}
         <div className="sidebar-footer">
-          {/* Dark Mode toggle */}
-          <button
-            className="sidebar-theme-toggle"
-            onClick={toggleDarkMode}
-            title={isCollapsed ? (darkMode ? 'Light Theme' : 'Dark Theme') : undefined}
-          >
-            <span className="sidebar-theme-icon">{darkMode ? <Sun size={18} /> : <Moon size={18} />}</span>
-            {!isCollapsed && (
-              <span className="sidebar-theme-label">
-                {darkMode ? 'Light Theme' : 'Dark Theme'}
-              </span>
-            )}
-          </button>
-
           {/* Logout button */}
           <button
             className="sidebar-logout-btn"
