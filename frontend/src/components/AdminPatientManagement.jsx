@@ -165,22 +165,28 @@ const AdminPatientManagement = ({ setAlert }) => {
 
       {/* Search and Filters */}
       <div className="filter-bar">
-        <input 
-          type="text" 
-          placeholder="Search by name, email, or phone…" 
-          value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-          style={{ maxWidth: 360 }}
-        />
-        <select 
-          value={statusFilter} 
-          onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-          style={{ maxWidth: 180 }}
-        >
-          <option value="all">All Statuses</option>
-          <option value="true">Active Patients</option>
-          <option value="false">Inactive Patients</option>
-        </select>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 200, maxWidth: 360 }}>
+            <input 
+              type="text" 
+              placeholder="Search by name, email, or phone…" 
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div style={{ minWidth: 160 }}>
+            <select 
+              value={statusFilter} 
+              onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
+              style={{ width: '100%' }}
+            >
+              <option value="all">All Statuses</option>
+              <option value="true">Active Patients</option>
+              <option value="false">Inactive Patients</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Table */}
@@ -248,12 +254,12 @@ const AdminPatientManagement = ({ setAlert }) => {
               </tbody>
             </table>
           </div>
-          <div className="table-footer">
-            <span>Showing {patients.length} of {total} patients</span>
-            <div className="pagination">
-              <button disabled={page === 1} onClick={() => setPage(page - 1)}>Prev</button>
-              <span>Page {page} of {pages}</span>
-              <button disabled={page === pages} onClick={() => setPage(page + 1)}>Next</button>
+          <div className="table-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Showing {patients.length} of {total} patients</span>
+            <div className="pagination" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button className="btn-secondary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }} disabled={page === 1} onClick={() => setPage(page - 1)}>Prev</button>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', margin: '0 0.5rem' }}>Page {page} of {pages}</span>
+              <button className="btn-secondary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem' }} disabled={page === pages} onClick={() => setPage(page + 1)}>Next</button>
             </div>
           </div>
         </div>
