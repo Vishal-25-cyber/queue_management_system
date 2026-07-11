@@ -677,54 +677,64 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
 
       {/* Review Modal */}
       {showReviewModal && (
-        <div className="resched-overlay">
-          <div className="resched-modal">
-            <div className="resched-header">
-              <h3 className="resched-title">Rate Doctor</h3>
-              <button className="resched-close" onClick={() => setShowReviewModal(false)}><X size={18} /></button>
+        <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) setShowReviewModal(false); }}>
+          <div className="modal" style={{ maxWidth: '440px' }}>
+            <div className="modal-header">
+              <div className="modal-title">
+                <div className="apt-modal-icon">
+                  <Award size={16} color="white" />
+                </div>
+                Rate Doctor
+              </div>
+              <button className="modal-close" onClick={() => setShowReviewModal(false)}>✕</button>
             </div>
-            <form onSubmit={submitReview} className="resched-body">
-              <div className="resched-field">
-                <label className="resched-label">Rating (1-5)</label>
-                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between', padding: '0.5rem 0' }}>
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <button
-                      type="button"
-                      key={num}
-                      onClick={() => setRating(num)}
-                      style={{
-                        flex: 1,
-                        padding: '0.75rem',
-                        background: rating === num ? 'rgba(234,179,8,0.2)' : 'rgba(255,255,255,0.05)',
-                        border: `1px solid ${rating === num ? '#eab308' : 'rgba(255,255,255,0.1)'}`,
-                        borderRadius: '8px',
-                        color: rating === num ? '#eab308' : 'white',
-                        fontSize: '1.25rem',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      {rating >= num ? '★' : '☆'}
-                    </button>
-                  ))}
+            <form onSubmit={submitReview}>
+              <div className="modal-body">
+                <div className="apt-field">
+                  <label className="apt-label">Rating (1-5)</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                    {[1, 2, 3, 4, 5].map(num => (
+                      <button
+                        type="button"
+                        key={num}
+                        onClick={() => setRating(num)}
+                        style={{
+                          flex: 1,
+                          padding: '0.75rem',
+                          background: rating === num ? 'rgba(234,179,8,0.2)' : 'rgba(255,255,255,0.05)',
+                          border: `1px solid ${rating === num ? '#eab308' : 'rgba(255,255,255,0.1)'}`,
+                          borderRadius: '8px',
+                          color: rating === num ? '#eab308' : 'white',
+                          fontSize: '1.25rem',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {rating >= num ? '★' : '☆'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="apt-field" style={{ marginTop: '0.875rem' }}>
+                  <label className="apt-label">Comment (optional)</label>
+                  <textarea
+                    className="apt-textarea"
+                    rows="3"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Share your experience..."
+                    style={{ resize: 'none', padding: '0.75rem', minHeight: '80px' }}
+                  />
                 </div>
               </div>
 
-              <div className="resched-field">
-                <label className="resched-label">Comment (optional)</label>
-                <textarea
-                  className="resched-input"
-                  rows="3"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Share your experience..."
-                  style={{ resize: 'none' }}
-                />
-              </div>
-
-              <div className="resched-footer">
-                <button type="button" className="resched-btn resched-btn-cancel" onClick={() => setShowReviewModal(false)}>Cancel</button>
-                <button type="submit" className="resched-btn resched-btn-save" disabled={actionLoading}>
+              <div className="modal-footer">
+                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>Cancel</button>
+                <button type="submit" className="btn-primary" disabled={actionLoading} style={{ background: '#eab308', color: 'black', border: 'none' }}>
                   {actionLoading ? 'Submitting...' : 'Submit Review'}
                 </button>
               </div>
