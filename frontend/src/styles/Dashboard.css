@@ -52,10 +52,11 @@
 .patient-content-container {
   flex: 1;
   margin-left: 260px;
+  width: calc(100% - 260px);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1), width 0.3s cubic-bezier(0.4,0,0.2,1);
   position: relative;
   z-index: 1;
   background: transparent;
@@ -63,10 +64,16 @@
   -webkit-backdrop-filter: none;
 }
 
-.sidebar-container.collapsed ~ .patient-content-container { margin-left: 72px; }
+.sidebar-container.collapsed ~ .patient-content-container { 
+  margin-left: 72px; 
+  width: calc(100% - 72px); 
+}
 
 @media (max-width: 900px) {
-  .patient-content-container { margin-left: 0 !important; }
+  .patient-content-container { 
+    margin-left: 0 !important; 
+    width: 100% !important; 
+  }
 }
 
 .dashboard-main-content {
