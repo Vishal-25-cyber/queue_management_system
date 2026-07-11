@@ -9,6 +9,15 @@ const ICONS = {
 };
 
 const Alert = ({ type = 'info', message, onClose }) => {
+  React.useEffect(() => {
+    if (onClose) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, type, onClose]);
+
   if (!message) return null;
   return (
     <div className={`alert alert-${type}`} role="alert">

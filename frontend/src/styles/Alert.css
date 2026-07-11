@@ -11,7 +11,14 @@
   font-size: 0.9rem;
   font-weight: 500;
   animation: slideInRight 0.3s ease;
-  position: relative;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
   overflow: hidden;
   border: 1px solid transparent;
 }
