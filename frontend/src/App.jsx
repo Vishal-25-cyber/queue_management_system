@@ -18,13 +18,10 @@ import Unauthorized from './pages/Unauthorized';
 // Styles
 import './styles/Global.css';
 
-import { ThemeProvider } from './context/ThemeContext';
-
 const App = () => {
   return (
     <Router>
-      <ThemeProvider>
-        <AuthProvider>
+      <AuthProvider>
         <QueueProvider>
           <NotificationProvider>
             <Routes>
@@ -73,8 +70,7 @@ const App = () => {
             <Toast />
           </NotificationProvider>
         </QueueProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      </AuthProvider>
     </Router>
   );
 };

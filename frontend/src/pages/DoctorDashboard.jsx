@@ -248,7 +248,7 @@ const DoctorDashboard = () => {
                     { label: "Today's Consultations", value: stats.todayConsultations, sub: 'Completed today',       icon: ClipboardList, colorClass: 'blue',   color: '#2563eb' },
                     { label: 'Waiting',               value: stats.waitingPatients,   sub: 'Patients in queue',     icon: Clock,         colorClass: 'orange', color: '#d97706', valueColor: 'var(--warning-dark)' },
                     { label: 'Today Appointments',    value: todayAppts.length,       sub: 'Scheduled for today',   icon: Calendar,      colorClass: 'cyan',   color: '#0891b2' },
-                    { label: 'My Rating',             value: stats.rating ? `${stats.rating} ⭐` : 'N/A', sub: `${stats.reviews?.length || 0} reviews`, icon: Award, colorClass: 'purple', color: '#7c3aed', valueColor: '#eab308' },
+                    { label: 'My Rating',             value: (stats.rating !== undefined && stats.rating !== null) ? `${stats.rating.toFixed(1)} ⭐` : '0.0 ⭐', sub: `${stats.reviews?.length || 0} reviews`, icon: Award, colorClass: 'purple', color: '#7c3aed', valueColor: '#eab308' },
                   ].map(c => (
                     <div key={c.label} className="stat-card">
                       <div className="stat-card-header">

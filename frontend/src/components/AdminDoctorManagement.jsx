@@ -255,7 +255,7 @@ const AdminDoctorManagement = ({ setAlert }) => {
                     <td>{d.qualifications}</td>
                     <td>
                       <div>{d.experience} years</div>
-                      <div style={{ fontSize: '0.8rem', color: '#eab308', fontWeight: 600 }}>⭐ {d.rating?.toFixed(1) || '4.5'}</div>
+                      <div style={{ fontSize: '0.8rem', color: '#eab308', fontWeight: 600 }}>⭐ {d.rating !== undefined && d.rating !== null ? d.rating.toFixed(1) : '0.0'}</div>
                     </td>
                     <td><strong>₹{d.consultationFee}</strong></td>
                     <td>

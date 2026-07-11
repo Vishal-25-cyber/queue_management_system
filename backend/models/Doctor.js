@@ -46,13 +46,13 @@ const doctorSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      default: 4.5,
+      default: 0,
       min: 0,
       max: 5,
     },
     totalRatings: {
       type: Number,
-      default: 1, // Start with 1 to account for the default 4.5 rating
+      default: 0,
     },
     reviews: [{
       patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
