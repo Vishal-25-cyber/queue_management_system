@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Alert from '../components/Alert';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { doctorService, patientService } from '../services/api';
+import { doctorService, patientService, departmentService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { Search, Stethoscope, Star, Ticket, History } from 'lucide-react';
 
@@ -25,8 +25,10 @@ const PatientDashboard = () => {
   const [selectedDept, setSelectedDept] = useState('all');
   const [search, setSearch] = useState('');
 
+  const [allDepartments, setAllDepartments] = useState([]);
+
   useEffect(() => {
-    fetchDoctors();
+    fetchData();
   }, []);
 
   const getDeptName = (dept) => {
@@ -41,12 +43,16 @@ const PatientDashboard = () => {
     setFiltered(list);
   }, [doctors, selectedDept, search]);
 
-  const fetchDoctors = async () => {
+  const fetchData = async () => {
     try {
-      const res = await doctorService.getAllDoctors();
-      setDoctors(res.data.doctors || []);
+      const [docRes, deptRes] = await Promise.all([
+        doctorService.getAllDoctors(),
+        departmentService.getAllDepartments(true)
+      ]);
+      setDoctors(docRes.data.doctors || []);
+      setAllDepartments(deptRes.data.departments || []);
     } catch {
-      setAlert({ type: 'error', message: 'Could not load doctors. Please refresh.' });
+      setAlert({ type: 'error', message: 'Could not load data. Please refresh.' });
     } finally {
       setLoading(false);
     }
@@ -65,7 +71,7 @@ const PatientDashboard = () => {
     }
   };
 
-  const departments = ['all', ...new Set(doctors.map(d => getDeptName(d.department)).filter(Boolean))];
+  const departmentOptions = ['all', ...allDepartments.map(d => d.name)];
 
   if (loading) {
     return (
@@ -123,8 +129,8 @@ const PatientDashboard = () => {
                 </div>
                 <div style={{ minWidth: 200 }}>
                   <select value={selectedDept} onChange={e => setSelectedDept(e.target.value)}>
-                    {departments.map(d => (
-                      <option key={d} value={d}>{d === 'all' ? 'All Departments' : d}</option>
+                    {departmentOptions.map(dept => (
+                      <option key={dept} value={dept}>{dept === 'all' ? 'All Departments' : dept}</option>
                     ))}
                   </select>
                 </div>
