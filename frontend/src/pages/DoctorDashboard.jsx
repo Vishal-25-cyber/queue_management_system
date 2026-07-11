@@ -248,7 +248,7 @@ const DoctorDashboard = () => {
                     { label: "Today's Consultations", value: stats.todayConsultations, sub: 'Completed today',       icon: ClipboardList, colorClass: 'blue',   color: '#2563eb' },
                     { label: 'Waiting',               value: stats.waitingPatients,   sub: 'Patients in queue',     icon: Clock,         colorClass: 'orange', color: '#d97706', valueColor: 'var(--warning-dark)' },
                     { label: 'Today Appointments',    value: todayAppts.length,       sub: 'Scheduled for today',   icon: Calendar,      colorClass: 'cyan',   color: '#0891b2' },
-                    { label: 'Total All Time',        value: stats.totalConsultations,sub: 'Lifetime consultations', icon: Award,         colorClass: 'purple', color: '#7c3aed' },
+                    { label: 'My Rating',             value: stats.rating ? `${stats.rating} ⭐` : 'N/A', sub: `${stats.totalRatings || 0} reviews`, icon: Award, colorClass: 'purple', color: '#7c3aed', valueColor: '#eab308' },
                   ].map(c => (
                     <div key={c.label} className="stat-card">
                       <div className="stat-card-header">
@@ -297,6 +297,31 @@ const DoctorDashboard = () => {
                         </div>
                       );
                     })}
+                  </div>
+                </div>
+              )}
+
+              {/* Recent Reviews */}
+              {stats?.reviews && stats.reviews.length > 0 && (
+                <div className="dashboard-sub-card" style={{ marginBottom: '1.5rem', borderLeft: '3px solid #eab308' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                    <Award size={18} style={{ color: '#eab308' }} />
+                    <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', margin: 0 }}>
+                      Patient Reviews
+                    </h3>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    {stats.reviews.slice(-5).reverse().map((review, idx) => (
+                      <div key={idx} style={{ padding: '0.875rem', background: 'rgba(255,255,255,0.03)', borderRadius: 10, border: `1px solid rgba(234,179,8,0.2)` }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.35rem' }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{review.patientName || 'Patient'}</div>
+                          <div style={{ color: '#eab308', fontSize: '0.85rem' }}>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</div>
+                        </div>
+                        {review.comment && (
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontStyle: 'italic', marginTop: '0.4rem' }}>"{review.comment}"</div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

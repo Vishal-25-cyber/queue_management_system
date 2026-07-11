@@ -224,6 +224,9 @@ exports.getDoctorStats = async (req, res, next) => {
 
     const stats = {
       totalConsultations: doctor.totalConsultations,
+      rating: doctor.rating,
+      totalRatings: doctor.totalRatings,
+      reviews: doctor.reviews,
       todayConsultations: await Token.countDocuments({
         doctorId: doctor._id,
         status: 'completed',
