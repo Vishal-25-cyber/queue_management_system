@@ -235,9 +235,7 @@ const AdminQueueManagement = ({ queueData, setAlert, fetchAll }) => {
           Queue Controller
         </h2>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button className="btn-secondary" onClick={() => setShowManualModal(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-            <Ticket size={16} /> Walk-in Booking
-          </button>
+          {/* Walk-in Booking button removed as requested */}
           <button className="btn-danger" onClick={() => setShowResetConfirm(true)} disabled={activeQueue.length === 0} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
             <RefreshCw size={16} /> Reset Queue
           </button>
