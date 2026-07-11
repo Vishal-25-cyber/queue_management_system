@@ -406,12 +406,46 @@ exports.getDashboardStats = async (req, res, next) => {
     });
     const totalTokensAllTime = await Token.countDocuments();
 
+    // Calculate Weekly Trends (last 7 days completed consultations)
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    
+    const weeklyTokens = await Token.aggregate([
+      {
+        $match: {
+          status: 'completed',
+          date: { $gte: sevenDaysAgo }
+        }
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    
+    const weeklyTrends = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dateString = d.toISOString().split('T')[0];
+      const dayLabel = d.toLocaleDateString('en-US', { weekday: 'short' });
+      
+      const found = weeklyTokens.find(wt => wt._id === dateString);
+      weeklyTrends.push({
+        label: dayLabel,
+        value: found ? found.count : 0
+      });
+    }
+
     const stats = {
       totalPatients,
       totalDoctors,
       activeQueues,
       completedConsultations,
       totalAppointments: totalTokensAllTime,
+      weeklyTrends
     };
 
     res.status(200).json({

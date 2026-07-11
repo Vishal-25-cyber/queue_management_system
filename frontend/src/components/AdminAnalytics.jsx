@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingUp, BarChart3, Building2 } from 'lucide-react';
 
-const AdminAnalytics = ({ queueData }) => {
+const AdminAnalytics = ({ queueData, stats }) => {
   // 1. Data Processing for Doctor Queue Load (Bar Chart)
   const barChartData = queueData.map(d => ({
     label: d.doctorName.split(' ')[1] || d.doctorName,
@@ -10,16 +10,8 @@ const AdminAnalytics = ({ queueData }) => {
 
   const maxBarValue = Math.max(...barChartData.map(d => d.value), 1);
 
-  // 2. Mock Data for Weekly Consult Trends (Line Chart)
-  const lineChartData = [
-    { label: 'Mon', value: 12 },
-    { label: 'Tue', value: 19 },
-    { label: 'Wed', value: 15 },
-    { label: 'Thu', value: 25 },
-    { label: 'Fri', value: 22 },
-    { label: 'Sat', value: 8 },
-    { label: 'Sun', value: 5 },
-  ];
+  // 2. Real Data for Weekly Consult Trends (Line Chart)
+  const lineChartData = stats?.weeklyTrends || [];
   const maxLineValue = Math.max(...lineChartData.map(d => d.value), 1);
 
   // 3. Data Processing for Department Distribution (Donut Chart)

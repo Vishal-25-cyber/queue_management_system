@@ -91,7 +91,7 @@ const AdminDashboard = () => {
           )}
           
           {activeTab === 'analytics' && (
-            <AdminAnalytics queueData={queueData} />
+            <AdminAnalytics queueData={queueData} stats={stats} />
           )}
           
           {activeTab === 'reports' && (
