@@ -259,10 +259,10 @@
 .form-group textarea {
   width: 100%;
   padding: 0.875rem 1rem;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
   border-radius: 10px;
-  color: #111827;
+  color: #111827 !important;
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.3s ease;
