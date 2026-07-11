@@ -102,6 +102,7 @@ const Register = () => {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-image-side">
+          <div className="auth-grid-overlay"></div>
           <div className="auth-brand-display">
             <div className="auth-brand-card">
               <div className="auth-brand-logo-icon">
