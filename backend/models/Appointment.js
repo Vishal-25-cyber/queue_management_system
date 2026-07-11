@@ -61,6 +61,10 @@ const appointmentSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
+    isReviewed: {
+      type: Boolean,
+      default: false,
+    },
     feedback: {
       type: String,
       default: '',

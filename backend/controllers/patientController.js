@@ -1,5 +1,6 @@
 const Token = require('../models/Token');
 const Doctor = require('../models/Doctor');
+const Appointment = require('../models/Appointment');
 
 // @desc    Book token/queue
 // @route   POST /api/patients/book-token
@@ -246,13 +247,28 @@ exports.cancelToken = async (req, res, next) => {
 // @access  Private (Patient only)
 exports.addReview = async (req, res) => {
   try {
-    const { doctorId, rating, comment } = req.body;
+    const { doctorId, appointmentId, rating, comment } = req.body;
     const patientId = req.user.id;
 
-    if (!doctorId || !rating) {
+    if (!doctorId || !appointmentId || !rating) {
       return res.status(400).json({
         success: false,
-        message: 'Doctor ID and rating are required',
+        message: 'Doctor ID, Appointment ID, and rating are required',
+      });
+    }
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Appointment not found',
+      });
+    }
+
+    if (appointment.isReviewed) {
+      return res.status(400).json({
+        success: false,
+        message: 'You have already reviewed this appointment',
       });
     }
 
@@ -264,17 +280,9 @@ exports.addReview = async (req, res) => {
       });
     }
 
-    // Check if user already reviewed
-    const existingReview = doctor.reviews.find(r => r.patientId.toString() === patientId.toString());
-    if (existingReview) {
-      return res.status(400).json({
-        success: false,
-        message: 'You have already reviewed this doctor',
-      });
-    }
-
     const newReview = {
       patientId,
+      appointmentId,
       patientName: req.user.name,
       rating: Number(rating),
       comment: comment || '',
@@ -289,6 +297,12 @@ exports.addReview = async (req, res) => {
     doctor.rating = Math.round(newRating * 10) / 10;
 
     await doctor.save();
+
+    // Mark appointment as reviewed
+    appointment.isReviewed = true;
+    appointment.rating = Number(rating);
+    appointment.feedback = comment || '';
+    await appointment.save();
 
     res.status(200).json({
       success: true,

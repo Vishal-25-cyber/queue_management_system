@@ -56,6 +56,7 @@ const doctorSchema = new mongoose.Schema(
     },
     reviews: [{
       patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      appointmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' },
       patientName: String,
       rating: Number,
       comment: String,

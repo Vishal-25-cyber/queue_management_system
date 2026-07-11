@@ -57,7 +57,7 @@ export const patientService = {
   getMyToken: () => apiClient.get('/patients/my-token'),
   getQueueStatus: (tokenId) => apiClient.get(`/patients/queue-status/${tokenId}`),
   cancelToken: (tokenId) => apiClient.put(`/patients/cancel-token/${tokenId}`),
-  addReview: (doctorId, rating, comment) => apiClient.post('/patients/add-review', { doctorId, rating, comment }),
+  addReview: (doctorId, appointmentId, rating, comment) => apiClient.post('/patients/add-review', { doctorId, appointmentId, rating, comment }),
 };
 
 // Appointment Service

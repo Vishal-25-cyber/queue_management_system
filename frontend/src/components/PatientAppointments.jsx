@@ -123,8 +123,11 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
     }
   };
 
-  const openReviewModal = (doctorId) => {
-    setReviewDoctorId(doctorId);
+  const [reviewApptId, setReviewApptId] = useState(null);
+
+  const openReviewModal = (app) => {
+    setReviewDoctorId(app.doctorId?._id || app.doctorId);
+    setReviewApptId(app._id);
     setRating(5);
     setComment('');
     setShowReviewModal(true);
@@ -132,14 +135,15 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
 
   const submitReview = async (e) => {
     e.preventDefault();
-    if (!reviewDoctorId || !rating) return;
+    if (!reviewDoctorId || !reviewApptId || !rating) return;
     setActionLoading(true);
     try {
       import('../services/api').then(module => {
-        return module.patientService.addReview(reviewDoctorId, rating, comment);
+        return module.patientService.addReview(reviewDoctorId, reviewApptId, rating, comment);
       }).then(() => {
         setAlert({ type: 'success', message: '⭐ Review submitted successfully!' });
         setShowReviewModal(false);
+        fetchAppointments();
       }).catch(err => {
         setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to submit review.' });
       }).finally(() => {
@@ -501,11 +505,18 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
                           </div>
                         )}
 
-                        {app.status === 'completed' && (
+                        {app.status === 'completed' && !app.isReviewed && (
                           <div style={{ marginTop: canAct || app.symptoms ? '0.6rem' : 0 }}>
-                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app.doctorId?._id || app.doctorId)} disabled={actionLoading}>
+                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app)} disabled={actionLoading}>
                               ⭐ Rate Doctor
                             </button>
+                          </div>
+                        )}
+                        {app.status === 'completed' && app.isReviewed && (
+                          <div style={{ marginTop: canAct || app.symptoms ? '0.6rem' : 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', padding: '0.45rem', background: 'rgba(255,255,255,0.02)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                              <Award size={12} style={{ color: '#eab308' }} /> You rated this {app.rating}⭐
+                            </div>
                           </div>
                         )}
                       </div>
@@ -622,6 +633,22 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
                             <button className="apt-action-btn apt-action-btn--danger" onClick={() => handleCancel(app._id)} disabled={actionLoading}>
                               <X size={13} /> Cancel
                             </button>
+                          </div>
+                        )}
+
+                        {app.status === 'completed' && !app.isReviewed && (
+                          <div className="apt-appt-actions">
+                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app)} disabled={actionLoading}>
+                              ⭐ Rate Doctor
+                            </button>
+                          </div>
+                        )}
+
+                        {app.status === 'completed' && app.isReviewed && (
+                          <div className="apt-appt-actions">
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', padding: '0.45rem', background: 'rgba(255,255,255,0.02)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.78rem', color: 'var(--text-secondary)', width: '100%' }}>
+                              <Award size={12} style={{ color: '#eab308' }} /> You rated this {app.rating}⭐
+                            </div>
                           </div>
                         )}
                       </div>
