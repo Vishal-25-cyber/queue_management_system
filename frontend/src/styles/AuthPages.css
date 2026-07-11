@@ -1,6 +1,7 @@
 /* ===================================================
    AUTH PAGES v4 — Premium Glassmorphism Split
    =================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Outfit:wght@400;600&display=swap');
 
 .auth-page {
   min-height: 100vh;
@@ -123,20 +124,21 @@
 }
 
 .auth-brand-logo-text h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 3rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3.2rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
   color: white;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em; /* Tighter letter spacing for modern tech look */
 }
 
 .auth-brand-logo-text span {
-  font-size: 0.9rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
   color: var(--cyan);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-weight: 500;
+  letter-spacing: 0.25em;
+  font-weight: 400;
 }
 
 .auth-status-badge {
