@@ -16,9 +16,7 @@ import '../styles/Navbar.css';
 const NAV_LINKS = {
   patient: [],
   doctor: [],
-  admin:   [
-    { to: '/admin-dashboard', label: 'Dashboard', icon: BarChart3 },
-  ],
+  admin: [],
 };
 
 const Navbar = () => {
