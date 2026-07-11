@@ -39,25 +39,7 @@ const Login = () => {
     setLoading(false);
   };
 
-  const handleQuickLogin = async (email, password, role) => {
-    setSelectedRole(role);
-    setLoading(true);
-    setError('');
-    setSuccess('');
-    setFormData({ email, password });
 
-    const result = await login(email, password, role);
-
-    if (result.success) {
-      const targetRole = result.user.role;
-      if (targetRole === 'patient') navigate('/patient-dashboard');
-      else if (targetRole === 'doctor') navigate('/doctor-dashboard');
-      else if (targetRole === 'admin') navigate('/admin-dashboard');
-    } else {
-      setError(result.error);
-    }
-    setLoading(false);
-  };
 
   return (
     <div className="auth-page">
@@ -145,7 +127,10 @@ const Login = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label htmlFor="password" style={{ marginBottom: 0 }}>Password</label>
+                <Link to="/forgot-password" style={{ fontSize: '0.8rem', color: 'var(--primary-light)', textDecoration: 'none', fontWeight: '600' }}>Forgot Password?</Link>
+              </div>
               <input
                 type="password"
                 id="password"
@@ -170,44 +155,8 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="auth-links">
+          <div className="auth-links" style={{ marginTop: '2rem' }}>
             Don't have an account? <Link to="/register">Create one here</Link>
-          </div>
-
-          {/* Quick Login Roles */}
-          <div className="demo-accounts">
-            <h4>Quick Demo Login</h4>
-            <div className="demo-grid">
-              <button
-                type="button"
-                className="demo-btn"
-                onClick={() => handleQuickLogin('admin@hospital.com', 'Admin@123', 'admin')}
-                disabled={loading}
-              >
-                <Shield size={18} />
-                <span>Admin</span>
-              </button>
-
-              <button
-                type="button"
-                className="demo-btn"
-                onClick={() => handleQuickLogin('rajesh.kumar@hospital.com', 'Doctor@123', 'doctor')}
-                disabled={loading}
-              >
-                <Stethoscope size={18} />
-                <span>Doctor</span>
-              </button>
-
-              <button
-                type="button"
-                className="demo-btn"
-                onClick={() => handleQuickLogin('patient@hospital.com', 'Patient@123', 'patient')}
-                disabled={loading}
-              >
-                <User size={18} />
-                <span>Patient</span>
-              </button>
-            </div>
           </div>
           </div>
         </div>
