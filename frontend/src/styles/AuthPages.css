@@ -299,7 +299,7 @@
 .btn-primary {
   width: 100%;
   padding: 1rem;
-  background: #111827; /* Dark color for login button */
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 10px;
@@ -311,9 +311,9 @@
 }
 
 .btn-primary:hover {
-  background: #000000; /* Darker on hover */
+  background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
 }
 
 /* Custom UI for Login Segmented Control (Role Selector) */
