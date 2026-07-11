@@ -61,56 +61,23 @@ const Login = () => {
 
   return (
     <div className="auth-page">
-      {/* === Left Branding Panel === */}
-      <div className="auth-brand-panel">
-        <div className="auth-brand-orb auth-brand-orb-1" />
-        <div className="auth-brand-orb auth-brand-orb-2" />
-
-        <div className="auth-brand-logo">
-          <div className="auth-brand-logo-icon">
-            <Activity size={28} style={{ color: '#22d3ee' }} />
-          </div>
-          <div className="auth-brand-logo-text">
-            CareSync
-            <span>Hospital Management System</span>
-          </div>
-        </div>
-
-        <div className="auth-brand-content">
-          <h1 className="auth-brand-title">
-            Smart Queue<br />
-            <span>Management</span><br />
-            Made Simple
-          </h1>
-          <p className="auth-brand-subtitle">
-            Reduce patient wait times, streamline doctor schedules, and deliver
-            a seamless hospital experience — all in real time.
-          </p>
-
-          <div className="auth-features">
-            {[
-              { icon: Zap, text: 'Real-time queue updates via WebSocket' },
-              { icon: Stethoscope, text: 'Smart doctor scheduling & availability' },
-              { icon: Ticket, text: 'Digital token booking for patients' },
-              { icon: BarChart3, text: 'Admin analytics & live queue overview' },
-            ].map(f => {
-              const FeatureIcon = f.icon;
-              return (
-                <div className="auth-feature" key={f.text}>
-                  <div className="auth-feature-icon">
-                    <FeatureIcon size={18} style={{ color: '#22d3ee' }} />
-                  </div>
-                  <span>{f.text}</span>
-                </div>
-              );
-            })}
+      <div className="auth-container">
+        {/* === Left Image Panel === */}
+        <div className="auth-image-side">
+          <div className="auth-brand-logo">
+            <div className="auth-brand-logo-icon">
+              <Activity size={36} />
+            </div>
+            <div className="auth-brand-logo-text">
+              <h1>CareSync</h1>
+              <span>Hospital Management</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* === Right Form Panel === */}
-      <div className="auth-form-panel">
-        <div className="auth-form-wrapper">
+        {/* === Right Form Panel === */}
+        <div className="auth-form-side">
+          <div className="auth-form-wrapper">
           <div className="auth-form-header">
             <h2>Welcome back</h2>
             <p>Sign in to your account to continue</p>
@@ -255,6 +222,7 @@ const Login = () => {
                 </div>
               </button>
             </div>
+          </div>
           </div>
         </div>
       </div>

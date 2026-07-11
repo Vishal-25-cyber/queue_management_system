@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { departmentService } from '../services/api';
-import { Shield, Stethoscope, User } from 'lucide-react';
+import { Shield, Stethoscope, User, Activity } from 'lucide-react';
 import '../styles/AuthPages.css';
 
 const Register = () => {
@@ -100,49 +100,23 @@ const Register = () => {
 
   return (
     <div className="auth-page">
-      {/* === Left Branding Panel === */}
-      <div className="auth-brand-panel">
-        <div className="auth-brand-orb auth-brand-orb-1" />
-        <div className="auth-brand-orb auth-brand-orb-2" />
-
-        <div className="auth-brand-logo">
-          <div className="auth-brand-logo-icon">🏥</div>
-          <div className="auth-brand-logo-text">
-            CareSync
-            <span>Hospital Management System</span>
+      <div className="auth-container">
+        {/* === Left Image Panel === */}
+        <div className="auth-image-side">
+          <div className="auth-brand-logo">
+            <div className="auth-brand-logo-icon">
+              <Activity size={36} />
+            </div>
+            <div className="auth-brand-logo-text">
+              <h1>CareSync</h1>
+              <span>Hospital Management</span>
+            </div>
           </div>
         </div>
 
-        <div className="auth-brand-content">
-          <h1 className="auth-brand-title">
-            Join Our<br />
-            <span>Healthcare</span><br />
-            Platform
-          </h1>
-          <p className="auth-brand-subtitle">
-            Create your patient account in seconds and start booking appointments
-            with top doctors across all departments — no waiting in line.
-          </p>
-
-          <div className="auth-features">
-            {[
-              { icon: '🎫', text: 'Book tokens from anywhere, anytime' },
-              { icon: '🔔', text: 'Get real-time alerts when called' },
-              { icon: '📱', text: 'Track your queue position live' },
-              { icon: '🔒', text: 'Secure & private health records' },
-            ].map(f => (
-              <div className="auth-feature" key={f.text}>
-                <div className="auth-feature-icon">{f.icon}</div>
-                <span>{f.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* === Right Form Panel === */}
-      <div className="auth-form-panel">
-        <div className="auth-form-wrapper">
+        {/* === Right Form Panel === */}
+        <div className="auth-form-side">
+          <div className="auth-form-wrapper">
           <div className="auth-form-header">
             <h2>Create account</h2>
             <p>Register to get started with CareSync</p>
@@ -369,6 +343,7 @@ const Register = () => {
             By creating an account you agree to our Terms of Service.<br />
             Doctors are added only by the Hospital Administrator.
           </p>
+          </div>
         </div>
       </div>
     </div>
