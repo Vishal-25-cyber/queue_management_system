@@ -135,6 +135,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
+                className="form-control"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -149,6 +150,7 @@ const Login = () => {
                 type="password"
                 id="password"
                 name="password"
+                className="form-control"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -168,58 +170,42 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="auth-footer-link">
-            Don't have an account?
-            <Link to="/register">Create one here</Link>
-          </p>
+          <div className="auth-links">
+            Don't have an account? <Link to="/register">Create one here</Link>
+          </div>
 
           {/* Quick Login Roles */}
-          <div className="quick-login-container">
-            <h3 className="quick-login-title">Quick Demo Login</h3>
-            <div className="quick-login-grid">
+          <div className="demo-accounts">
+            <h4>Quick Demo Login</h4>
+            <div className="demo-grid">
               <button
                 type="button"
-                className="quick-login-card admin"
+                className="demo-btn"
                 onClick={() => handleQuickLogin('admin@hospital.com', 'Admin@123', 'admin')}
                 disabled={loading}
               >
-                <div className="quick-login-icon-wrapper">
-                  <Shield size={20} />
-                </div>
-                <div className="quick-login-info">
-                  <span className="quick-login-role">Admin</span>
-                  <span className="quick-login-desc">Full System Access</span>
-                </div>
+                <Shield size={18} />
+                <span>Admin</span>
               </button>
 
               <button
                 type="button"
-                className="quick-login-card doctor"
+                className="demo-btn"
                 onClick={() => handleQuickLogin('rajesh.kumar@hospital.com', 'Doctor@123', 'doctor')}
                 disabled={loading}
               >
-                <div className="quick-login-icon-wrapper">
-                  <Stethoscope size={20} />
-                </div>
-                <div className="quick-login-info">
-                  <span className="quick-login-role">Doctor</span>
-                  <span className="quick-login-desc">Manage Queues</span>
-                </div>
+                <Stethoscope size={18} />
+                <span>Doctor</span>
               </button>
 
               <button
                 type="button"
-                className="quick-login-card patient"
+                className="demo-btn"
                 onClick={() => handleQuickLogin('patient@hospital.com', 'Patient@123', 'patient')}
                 disabled={loading}
               >
-                <div className="quick-login-icon-wrapper">
-                  <User size={20} />
-                </div>
-                <div className="quick-login-info">
-                  <span className="quick-login-role">Patient</span>
-                  <span className="quick-login-desc">Book Tokens</span>
-                </div>
+                <User size={18} />
+                <span>Patient</span>
               </button>
             </div>
           </div>
