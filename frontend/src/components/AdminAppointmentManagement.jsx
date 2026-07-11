@@ -164,20 +164,9 @@ const AdminAppointmentManagement = ({ setAlert, fetchAll: refreshStats }) => {
                     <td>₹{app.consultationFee}</td>
                     <td>
                       <div className="table-actions">
-                        {app.status === 'pending' ? (
-                          <>
-                            <button className="btn-success-sm" onClick={() => handleApprove(app._id)} disabled={actionLoading} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                              <Check size={14} /> Approve
-                            </button>
-                            <button className="btn-ghost-sm danger-text" onClick={() => handleReject(app._id)} disabled={actionLoading} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                              <X size={14} /> Reject
-                            </button>
-                          </>
-                        ) : (
-                          <span className={`status-pill ${app.status}`}>
-                            {app.status.toUpperCase()}
-                          </span>
-                        )}
+                        <span className={`status-pill ${app.status}`}>
+                          {app.status.toUpperCase()}
+                        </span>
                       </div>
                     </td>
                   </tr>
