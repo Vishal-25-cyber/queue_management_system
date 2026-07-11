@@ -39,7 +39,7 @@
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(5, 10, 20, 0.5); /* Overlay for text readability */
+  background: rgba(5, 10, 20, 0.7); /* Darker overlay for strong text readability */
   z-index: 0;
 }
 
