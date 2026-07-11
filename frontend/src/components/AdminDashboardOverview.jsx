@@ -8,6 +8,10 @@ import {
 } from 'lucide-react';
 
 const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
+  const activeDoctors = queueData.filter(item => 
+    item.waitingPatients > 0 || item.calledPatients > 0 || item.completedConsultations > 0
+  );
+
   return (
     <div className="overview-panel">
       {/* Essential Stats Grid */}
@@ -68,37 +72,37 @@ const AdminDashboardOverview = ({ stats, queueData, setActiveTab }) => {
             <button className="btn-ghost-sm" onClick={() => setActiveTab('queue')}>Manage Queues →</button>
           </div>
           <div className="dashboard-sub-card-body">
-            {queueData.length === 0 ? (
-              <div className="empty-state-sm">
+            {activeDoctors.length === 0 ? (
+              <div className="empty-state-sm" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 <p>No active doctor queues at the moment.</p>
               </div>
             ) : (
               <div className="overview-queue-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-                {queueData.map((item) => (
-                  <div key={item.doctorId} className="overview-queue-item" style={{ border: '1px solid var(--gray-200)', borderRadius: '12px', padding: '1rem' }}>
+                {activeDoctors.map((item) => (
+                  <div key={item.doctorId} className="overview-queue-item" style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '1rem', background: 'rgba(255,255,255,0.02)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                      <div className="overview-queue-avatar" style={{ backgroundColor: 'var(--blue-50)', padding: '0.5rem', borderRadius: '8px' }}>
-                        <Stethoscope size={20} style={{ color: 'var(--primary)' }} />
+                      <div className="overview-queue-avatar" style={{ backgroundColor: 'rgba(37, 99, 235, 0.15)', padding: '0.5rem', borderRadius: '8px' }}>
+                        <Stethoscope size={20} style={{ color: 'var(--primary-light, #60a5fa)' }} />
                       </div>
                       <div>
-                        <strong style={{ fontSize: '1rem', color: 'var(--gray-900)' }}>{item.doctorName}</strong>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--gray-500)' }}>{item.department?.name || item.department}</div>
+                        <strong style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>{item.doctorName}</strong>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{item.department?.name || item.department}</div>
                       </div>
                     </div>
-                    <div className="overview-queue-stats" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'var(--gray-50)', padding: '0.75rem', borderRadius: '8px' }}>
+                    <div className="overview-queue-stats" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
                       <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Waiting</span>
-                        <strong style={{ fontSize: '1.2rem' }} className={item.waitingPatients > 0 ? 'warning-text' : 'success-text'}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block' }}>Waiting</span>
+                        <strong style={{ fontSize: '1.2rem', color: item.waitingPatients > 0 ? 'var(--warning, #f59e0b)' : 'var(--text-primary)' }}>
                           {item.waitingPatients}
                         </strong>
                       </div>
                       <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Called</span>
-                        <strong style={{ fontSize: '1.2rem' }}>{item.calledPatients}</strong>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block' }}>Called</span>
+                        <strong style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>{item.calledPatients}</strong>
                       </div>
                       <div className="overview-queue-stat-item" style={{ textAlign: 'center' }}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--gray-500)', display: 'block' }}>Completed</span>
-                        <strong style={{ fontSize: '1.2rem' }} className="success-text">{item.completedConsultations}</strong>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block' }}>Completed</span>
+                        <strong style={{ fontSize: '1.2rem', color: item.completedConsultations > 0 ? 'var(--success, #10b981)' : 'var(--text-primary)' }}>{item.completedConsultations}</strong>
                       </div>
                     </div>
                   </div>

@@ -394,7 +394,10 @@ exports.getDashboardStats = async (req, res, next) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const totalPatients = await User.countDocuments({ role: 'patient' });
+    const totalPatients = await User.countDocuments({ 
+      role: 'patient',
+      createdAt: { $gte: today }
+    });
     const totalDoctors = await Doctor.countDocuments({ isActive: true });
     const activeQueues = await Token.countDocuments({
       status: { $in: ['waiting', 'called'] },
@@ -404,7 +407,9 @@ exports.getDashboardStats = async (req, res, next) => {
       status: 'completed',
       date: { $gte: today },
     });
-    const totalTokensAllTime = await Token.countDocuments();
+    const totalTokensToday = await Token.countDocuments({
+      date: { $gte: today }
+    });
 
     // Calculate Weekly Trends (last 7 days completed consultations)
     const sevenDaysAgo = new Date(today);
@@ -444,7 +449,7 @@ exports.getDashboardStats = async (req, res, next) => {
       totalDoctors,
       activeQueues,
       completedConsultations,
-      totalAppointments: totalTokensAllTime,
+      totalAppointments: totalTokensToday,
       weeklyTrends
     };
 
