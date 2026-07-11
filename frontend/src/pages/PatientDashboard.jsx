@@ -16,7 +16,7 @@ import '../styles/Dashboard.css';
 const PatientDashboard = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
-  
+
   const [doctors, setDoctors] = useState([]);
   const [filteredDoctors, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,10 +84,10 @@ const PatientDashboard = () => {
   return (
     <div className="app-dashboard-layout" style={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      
+
       <div className="patient-content-container">
         <Navbar />
-        
+
         <main className="dashboard-main-content no-sidebar">
           {alert && (
             <div style={{ marginBottom: '1.5rem' }}>
@@ -176,7 +176,7 @@ const PatientDashboard = () => {
                         <div className="doctor-detail-item">
                           <span className="doctor-detail-label">Rating</span>
                           <span className="doctor-detail-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <Star size={14} fill="#eab308" color="#eab308" /> {doctor.rating !== undefined && doctor.rating !== null ? doctor.rating.toFixed(1) : '0.0'} 
+                            <Star size={14} fill="#eab308" color="#eab308" /> {doctor.rating !== undefined && doctor.rating !== null ? doctor.rating.toFixed(1) : '0.0'}
                             <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>({doctor.reviews?.length || 0})</span>
                           </span>
                         </div>
@@ -195,6 +195,25 @@ const PatientDashboard = () => {
                           {doctor.bio}
                         </p>
                       )}
+
+                      <div className="doctor-card-footer" style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1rem', borderTop: '1px solid var(--gray-200)' }}>
+                        {doctor.isAvailableToday === false ? (
+                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--danger-bg)', color: 'var(--danger)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Unavailable Today</span>
+                        ) : doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10) ? (
+                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--warning-bg)', color: 'var(--warning-dark)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Tokens Full</span>
+                        ) : (
+                          <span style={{ padding: '0.4rem 0.8rem', background: 'var(--success-bg)', color: 'var(--success)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 700 }}>Available</span>
+                        )}
+                        <button 
+                          className="btn-primary"
+                          disabled={bookingLoading === doctor._id || doctor.isAvailableToday === false || doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10)}
+                          onClick={() => handleBook(doctor._id)}
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem', fontSize: '0.85rem', opacity: (doctor.isAvailableToday === false || doctor.tokensBookedToday >= (doctor.dailyTokenLimit || 10)) ? 0.5 : 1 }}
+                        >
+                          <Ticket size={16} /> 
+                          {bookingLoading === doctor._id ? 'Booking...' : 'Book Token'}
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

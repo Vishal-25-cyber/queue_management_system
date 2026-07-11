@@ -66,6 +66,14 @@ const doctorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isAvailableToday: {
+      type: Boolean,
+      default: true,
+    },
+    dailyTokenLimit: {
+      type: Number,
+      default: 10,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

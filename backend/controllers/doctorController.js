@@ -9,12 +9,30 @@ exports.getAllDoctors = async (req, res, next) => {
   try {
     const doctors = await Doctor.find({ isActive: true })
       .populate('userId', 'name email phone')
-      .populate('department', 'name');
+      .populate('department', 'name')
+      .lean();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const doctorsWithTokenCounts = await Promise.all(
+      doctors.map(async (doc) => {
+        const tokensBookedToday = await Token.countDocuments({
+          doctorId: doc._id,
+          date: { $gte: today },
+          status: { $ne: 'cancelled' },
+        });
+        return {
+          ...doc,
+          tokensBookedToday,
+        };
+      })
+    );
 
     res.status(200).json({
       success: true,
-      count: doctors.length,
-      doctors,
+      count: doctorsWithTokenCounts.length,
+      doctors: doctorsWithTokenCounts,
     });
   } catch (error) {
     res.status(500).json({
@@ -223,6 +241,8 @@ exports.getDoctorStats = async (req, res, next) => {
     today.setHours(0, 0, 0, 0);
 
     const stats = {
+      isAvailableToday: doctor.isAvailableToday,
+      dailyTokenLimit: doctor.dailyTokenLimit,
       totalConsultations: doctor.totalConsultations,
       rating: doctor.rating,
       totalRatings: doctor.totalRatings,
@@ -247,6 +267,43 @@ exports.getDoctorStats = async (req, res, next) => {
     res.status(200).json({
       success: true,
       stats,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// @desc    Update doctor availability and token limit
+// @route   PUT /api/doctors/availability
+// @access  Private (Doctor only)
+exports.updateAvailability = async (req, res, next) => {
+  try {
+    const { isAvailableToday, dailyTokenLimit } = req.body;
+
+    const doctor = await Doctor.findOne({ userId: req.user.id });
+
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: 'Doctor not found',
+      });
+    }
+
+    if (typeof isAvailableToday !== 'undefined') doctor.isAvailableToday = isAvailableToday;
+    if (typeof dailyTokenLimit !== 'undefined') doctor.dailyTokenLimit = dailyTokenLimit;
+
+    await doctor.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Availability updated successfully',
+      doctor: {
+        isAvailableToday: doctor.isAvailableToday,
+        dailyTokenLimit: doctor.dailyTokenLimit,
+      }
     });
   } catch (error) {
     res.status(500).json({

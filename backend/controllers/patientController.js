@@ -26,9 +26,30 @@ exports.bookToken = async (req, res, next) => {
       });
     }
 
+    if (doctor.isAvailableToday === false) {
+      return res.status(400).json({
+        success: false,
+        message: 'Doctor is not available today',
+      });
+    }
+
     // Get today's date
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    // Check doctor's daily token limit
+    const tokensTodayCount = await Token.countDocuments({
+      doctorId,
+      date: { $gte: today },
+      status: { $ne: 'cancelled' },
+    });
+
+    if (tokensTodayCount >= (doctor.dailyTokenLimit || 10)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Doctor token limit reached for today',
+      });
+    }
 
     // Check if patient already has a token for this doctor today
     const existingToken = await Token.findOne({

@@ -10,6 +10,7 @@ router.get('/stats', auth, authorize('doctor'), doctorController.getDoctorStats)
 router.get('/queue/today', auth, authorize('doctor'), doctorController.getTodayQueue);
 router.put('/call-patient', auth, authorize('doctor'), doctorController.callNextPatient);
 router.put('/complete-consultation/:tokenId', auth, authorize('doctor'), doctorController.completeConsultation);
+router.put('/availability', auth, authorize('doctor'), doctorController.updateAvailability);
 
 // Public routes
 router.get('/', doctorController.getAllDoctors);

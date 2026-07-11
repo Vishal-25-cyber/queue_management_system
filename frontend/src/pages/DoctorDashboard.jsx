@@ -11,7 +11,7 @@ import {
   Stethoscope, ClipboardList, Clock, CheckCircle2, Award,
   Megaphone, Info, FileEdit, Activity, Calendar, User,
   Banknote, XCircle, CheckCircle, AlertCircle, RotateCcw,
-  Bell, ChevronRight, Loader2, X
+  Bell, ChevronRight, Loader2, X, Settings, Ticket, Save
 } from 'lucide-react';
 import '../styles/Dashboard.css';
 import '../styles/PatientAppointments.css';
@@ -54,6 +54,9 @@ const DoctorDashboard = () => {
   const [rejectReason, setRejectReason]     = useState('');
   const [actionLoading, setActionLoading]   = useState(false);
   const [timer, setTimer]                   = useState(0);
+  const [isAvailableToday, setIsAvailableToday] = useState(true);
+  const [dailyTokenLimit, setDailyTokenLimit] = useState(10);
+  const [savingSettings, setSavingSettings] = useState(false);
   const { doctorOnline, callNextPatient, completeConsultation } = useQueue();
 
   useEffect(() => {
@@ -79,6 +82,10 @@ const DoctorDashboard = () => {
       ]);
       setQueue(queueRes.data.tokens || []);
       setStats(statsRes.data.stats);
+      if (statsRes.data.stats) {
+        setIsAvailableToday(statsRes.data.stats.isAvailableToday !== false);
+        setDailyTokenLimit(statsRes.data.stats.dailyTokenLimit || 10);
+      }
     } catch (err) {
       setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to load data.' });
     } finally {
@@ -95,6 +102,18 @@ const DoctorDashboard = () => {
       setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to load appointments.' });
     } finally {
       setApptLoading(false);
+    }
+  };
+
+  const handleUpdateSettings = async () => {
+    setSavingSettings(true);
+    try {
+      await doctorService.updateAvailability({ isAvailableToday, dailyTokenLimit });
+      setAlert({ type: 'success', message: 'Settings updated successfully!' });
+    } catch (err) {
+      setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to update settings.' });
+    } finally {
+      setSavingSettings(false);
     }
   };
 
@@ -264,6 +283,68 @@ const DoctorDashboard = () => {
                 </div>
               )}
 
+              {/* Quick Settings Panel - Premium Design */}
+              <div className="dashboard-sub-card" style={{ marginBottom: '2rem', padding: '1.25rem', background: 'rgba(8, 15, 30, 0.4)', border: '1px solid rgba(124, 58, 237, 0.2)', borderRadius: '16px', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.25rem' }}>
+                  <div style={{ background: 'rgba(124, 58, 237, 0.15)', padding: '0.4rem', borderRadius: '8px', color: 'var(--primary)' }}>
+                    <Settings size={18} />
+                  </div>
+                  <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.3px' }}>Queue Control Settings</h3>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', alignItems: 'flex-end' }}>
+                  {/* Status Toggle */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Today's Availability</span>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', padding: '0.6rem 1rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '10px', transition: 'all 0.2s', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)' }}>
+                      <div style={{ position: 'relative', width: '40px', height: '22px', background: isAvailableToday ? 'var(--success)' : 'var(--gray-600)', borderRadius: '22px', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', boxShadow: isAvailableToday ? '0 0 8px rgba(16, 185, 129, 0.4)' : 'none' }}>
+                        <div style={{ position: 'absolute', top: '3px', left: isAvailableToday ? '20px' : '3px', width: '16px', height: '16px', background: 'white', borderRadius: '50%', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }} />
+                      </div>
+                      <span style={{ fontWeight: 700, color: isAvailableToday ? 'var(--success)' : 'var(--gray-400)', fontSize: '0.85rem' }}>
+                        {isAvailableToday ? 'Accepting Patients' : 'Not Available'}
+                      </span>
+                      <input 
+                        type="checkbox" 
+                        checked={isAvailableToday}
+                        onChange={(e) => setIsAvailableToday(e.target.checked)}
+                        style={{ display: 'none' }}
+                      />
+                    </label>
+                  </div>
+
+                  {/* Token Limit */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Daily Token Limit</span>
+                    <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                      <div style={{ position: 'absolute', left: '0.85rem', color: 'var(--primary)', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Ticket size={16} />
+                      </div>
+                      <input 
+                        type="number" 
+                        min="1" max="200"
+                        value={dailyTokenLimit}
+                        onChange={(e) => setDailyTokenLimit(parseInt(e.target.value) || 10)}
+                        className="glass-input"
+                        style={{ width: '100%', padding: '0.65rem 1rem 0.65rem 2.4rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.03)', color: 'white', fontSize: '0.9rem', fontWeight: 700, transition: 'all 0.2s', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)' }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Save Button */}
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%' }}>
+                    <button 
+                      className="btn-primary" 
+                      style={{ padding: '0.65rem 1.25rem', fontSize: '0.85rem', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', borderRadius: '10px', boxShadow: '0 4px 15px rgba(124, 58, 237, 0.3)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 800 }}
+                      onClick={handleUpdateSettings}
+                      disabled={savingSettings}
+                    >
+                      {savingSettings ? <Loader2 size={16} className="spin" /> : <Save size={16} />}
+                      {savingSettings ? 'Updating...' : 'Apply Settings'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* Today's Appointments Quick View */}
               {todayAppts.length > 0 && (
                 <div className="dashboard-sub-card" style={{ marginBottom: '1.5rem', borderLeft: '3px solid var(--primary)' }}>
@@ -303,20 +384,20 @@ const DoctorDashboard = () => {
 
               {/* Active Consultation Banner */}
               {currentToken && (
-                <div className="consultation-active">
+                <div className="consultation-active" style={{ padding: '1.25rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
                     <div>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.7)', marginBottom: '0.5rem', fontWeight: 700 }}>
-                        <Activity size={14} className="pulse" /> ACTIVE CONSULTATION
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.7)', marginBottom: '0.4rem', fontWeight: 700 }}>
+                        <Activity size={12} className="pulse" /> ACTIVE CONSULTATION
                       </div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', marginBottom: '0.5rem' }}>
+                      <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'white', marginBottom: '0.4rem' }}>
                         Token #{currentToken.tokenNumber} — {currentToken.patientName}
                       </div>
-                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-                        <Clock size={16} /> Duration: {fmtTime(timer)}
+                      <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <Clock size={14} /> Duration: {fmtTime(timer)}
                       </div>
                     </div>
-                    <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.2)', border: '1.5px solid rgba(255,255,255,0.35)', color: 'white', padding: '0.875rem 1.5rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }} onClick={() => setShowModal(true)}>
+                    <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.2)', border: '1.5px solid rgba(255,255,255,0.35)', color: 'white', padding: '0.6rem 1.25rem', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }} onClick={() => setShowModal(true)}>
                       <CheckCircle2 size={16} /> Complete Consultation
                     </button>
                   </div>

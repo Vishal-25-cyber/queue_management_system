@@ -28,6 +28,8 @@ export const authService = {
   login: (credentials) => apiClient.post('/auth/login', credentials),
   getMe: () => apiClient.get('/auth/me'),
   updateProfile: (data) => apiClient.put('/auth/profile', data),
+  forgotPassword: (email) => apiClient.post('/auth/forgotpassword', { email }),
+  resetPassword: (token, password) => apiClient.put(`/auth/resetpassword/${token}`, { password }),
 };
 
 // Department Service
@@ -49,6 +51,7 @@ export const doctorService = {
   completeConsultation: (tokenId, data) =>
     apiClient.put(`/doctors/complete-consultation/${tokenId}`, data),
   getDoctorStats: () => apiClient.get('/doctors/stats'),
+  updateAvailability: (data) => apiClient.put('/doctors/availability', data),
 };
 
 // Patient Service

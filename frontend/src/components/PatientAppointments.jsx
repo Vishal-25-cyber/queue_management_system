@@ -624,17 +624,47 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
                         )}
 
                         {app.status === 'completed' && !app.isReviewed && (
-                          <div className="apt-appt-actions">
-                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app)} disabled={actionLoading}>
-                              ⭐ Rate Doctor
+                          <div className="apt-appt-actions" style={{ marginTop: '0.5rem' }}>
+                            <button 
+                              className="apt-action-btn" 
+                              style={{ 
+                                width: '100%', 
+                                background: 'linear-gradient(135deg, rgba(234,179,8,0.15) 0%, rgba(217,119,6,0.15) 100%)', 
+                                color: '#fcd34d', 
+                                borderColor: 'rgba(234,179,8,0.4)', 
+                                justifyContent: 'center',
+                                boxShadow: '0 4px 15px rgba(234,179,8,0.15)',
+                                fontWeight: 800,
+                                letterSpacing: '0.5px',
+                                textTransform: 'uppercase',
+                                padding: '0.65rem',
+                                transition: 'all 0.3s'
+                              }} 
+                              onClick={() => openReviewModal(app)} 
+                              disabled={actionLoading}
+                            >
+                              ⭐ Rate Consultation
                             </button>
                           </div>
                         )}
 
                         {app.status === 'completed' && app.isReviewed && (
-                          <div className="apt-appt-actions">
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', padding: '0.45rem', background: 'rgba(255,255,255,0.02)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.78rem', color: 'var(--text-secondary)', width: '100%' }}>
-                              <Award size={12} style={{ color: '#eab308' }} /> You rated this {app.rating}⭐
+                          <div className="apt-appt-actions" style={{ marginTop: '0.5rem' }}>
+                            <div style={{ 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              gap: '0.4rem', 
+                              padding: '0.65rem', 
+                              background: 'linear-gradient(135deg, rgba(234,179,8,0.05) 0%, rgba(217,119,6,0.05) 100%)', 
+                              borderRadius: '10px', 
+                              border: '1px solid rgba(234,179,8,0.2)', 
+                              fontSize: '0.85rem', 
+                              color: '#fbbf24', 
+                              fontWeight: 700,
+                              width: '100%' 
+                            }}>
+                              <Award size={14} style={{ color: '#fbbf24' }} /> You rated this {app.rating}⭐
                             </div>
                           </div>
                         )}
