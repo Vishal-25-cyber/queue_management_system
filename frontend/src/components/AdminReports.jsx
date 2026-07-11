@@ -96,10 +96,11 @@ const AdminReports = ({ setAlert }) => {
       csvRows.push(values.join(','));
     }
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + csvRows.join('\n');
-    const encodedUri = encodeURI(csvContent);
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
+    link.setAttribute('href', url);
     link.setAttribute('download', `${activeReport}_report_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
@@ -130,19 +131,18 @@ const AdminReports = ({ setAlert }) => {
           Reports Generator
         </h2>
         {reportData.length > 0 && (
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <button className="btn-secondary" onClick={handleExportCSV} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-              <Download size={16} /> Download Excel CSV
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <button className="btn-secondary" onClick={handleExportCSV} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', whiteSpace: 'nowrap' }}>
+              <Download size={16} /> Download CSV
             </button>
-            <button className="btn-primary" onClick={handlePrintPDF} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
-              <Printer size={16} /> Print / Export PDF
+            <button className="btn-primary" onClick={handlePrintPDF} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', whiteSpace: 'nowrap' }}>
+              <Printer size={16} /> Print / PDF
             </button>
           </div>
         )}
       </div>
 
-      {/* Select Report Panel */}
-      <div className="report-type-selector-grid mobile-stacked" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="report-type-selector-grid mobile-stacked" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
         {REPORT_TYPES.map(report => {
           const ReportIcon = report.icon;
           return (
@@ -150,10 +150,10 @@ const AdminReports = ({ setAlert }) => {
               key={report.id}
               onClick={() => setActiveReport(report.id)}
               className={`role-option ${activeReport === report.id ? 'selected' : ''}`}
-              style={{ padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', background: 'var(--gray-50)' }}
+              style={{ padding: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', background: activeReport === report.id ? 'var(--primary)' : 'rgba(255,255,255,0.03)', border: activeReport === report.id ? 'none' : '1px solid rgba(255,255,255,0.1)', color: activeReport === report.id ? 'white' : 'var(--text-secondary)', borderRadius: '12px', transition: 'all 0.2s ease' }}
             >
               <span style={{ display: 'inline-flex', justifyContent: 'center', padding: '0.25rem' }}>
-                <ReportIcon size={24} style={{ color: activeReport === report.id ? 'white' : 'var(--primary)' }} />
+                <ReportIcon size={24} style={{ color: activeReport === report.id ? 'white' : 'var(--primary-light, #60a5fa)' }} />
               </span>
               <span style={{ fontSize: '0.85rem', fontWeight: 700 }}>{report.label}</span>
             </button>
