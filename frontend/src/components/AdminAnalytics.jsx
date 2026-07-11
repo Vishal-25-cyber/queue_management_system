@@ -8,7 +8,7 @@ const AdminAnalytics = ({ queueData, stats }) => {
     value: d.waitingPatients + d.calledPatients
   })).slice(0, 5);
 
-  const maxBarValue = Math.max(...barChartData.map(d => d.value), 1);
+  const maxBarValue = Math.max(...barChartData.map(d => d.value), 5);
 
   // 2. Real Data for Weekly Consult Trends (Line Chart)
   const lineChartData = stats?.weeklyTrends || [];
@@ -55,13 +55,13 @@ const AdminAnalytics = ({ queueData, stats }) => {
                 const widthPercent = (bar.value / maxBarValue) * 100;
                 return (
                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ width: '80px', fontSize: '0.8rem', fontWeight: 600, color: 'var(--gray-600)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    <span style={{ width: '80px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                       {bar.label}
                     </span>
-                    <div style={{ flex: 1, background: 'var(--gray-100)', height: '16px', borderRadius: '8px', overflow: 'hidden' }}>
-                      <div style={{ width: `${widthPercent}%`, background: 'var(--primary)', height: '100%', borderRadius: '8px', transition: 'width 0.5s ease' }} />
+                    <div style={{ flex: 1, background: 'rgba(255,255,255,0.05)', height: '16px', borderRadius: '8px', overflow: 'hidden' }}>
+                      <div style={{ width: `${widthPercent}%`, background: 'linear-gradient(90deg, var(--primary), var(--cyan))', height: '100%', borderRadius: '8px', transition: 'width 0.5s ease', boxShadow: widthPercent > 0 ? '0 0 10px rgba(37,99,235,0.5)' : 'none' }} />
                     </div>
-                    <span style={{ fontSize: '0.8rem', fontWeight: 700, width: '20px', textAlign: 'right' }}>{bar.value}</span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: 700, width: '24px', textAlign: 'right', color: 'white' }}>{bar.value}</span>
                   </div>
                 );
               })}
@@ -78,9 +78,9 @@ const AdminAnalytics = ({ queueData, stats }) => {
           <div style={{ height: '180px', position: 'relative' }}>
             <svg viewBox="0 0 400 150" style={{ width: '100%', height: '100%' }}>
               {/* Grid Lines */}
-              <line x1="40" y1="20" x2="380" y2="20" stroke="#f3f4f6" strokeWidth="1" />
-              <line x1="40" y1="70" x2="380" y2="70" stroke="#f3f4f6" strokeWidth="1" />
-              <line x1="40" y1="120" x2="380" y2="120" stroke="#e5e7eb" strokeWidth="1.5" />
+              <line x1="40" y1="20" x2="380" y2="20" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+              <line x1="40" y1="70" x2="380" y2="70" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+              <line x1="40" y1="120" x2="380" y2="120" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
 
               {/* Draw Line Path */}
               <polyline
@@ -102,9 +102,9 @@ const AdminAnalytics = ({ queueData, stats }) => {
                 const y = 120 - (d.value / maxLineValue) * 90;
                 return (
                   <g key={i}>
-                    <circle cx={x} cy={y} r="5" fill="white" stroke="var(--success)" strokeWidth="2.5" />
-                    <text x={x} y="140" fontSize="10" fill="#9ca3af" textAnchor="middle" fontWeight="600">{d.label}</text>
-                    <text x={x} y={y - 8} fontSize="9" fill="var(--gray-800)" textAnchor="middle" fontWeight="700">{d.value}</text>
+                    <circle cx={x} cy={y} r="5" fill="var(--bg-base)" stroke="var(--success)" strokeWidth="2.5" />
+                    <text x={x} y="140" fontSize="10" fill="var(--text-secondary)" textAnchor="middle" fontWeight="600">{d.label}</text>
+                    <text x={x} y={y - 12} fontSize="10" fill="white" textAnchor="middle" fontWeight="700">{d.value}</text>
                   </g>
                 );
               })}
@@ -121,8 +121,7 @@ const AdminAnalytics = ({ queueData, stats }) => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="mobile-stacked">
             <div style={{ width: '130px', height: '130px' }}>
               <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
-                {/* Background Ring */}
-                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f3f4f6" strokeWidth="3" />
+                <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="3" />
                 
                 {/* Segments */}
                 {(() => {
@@ -151,10 +150,10 @@ const AdminAnalytics = ({ queueData, stats }) => {
                 
                 {/* Text Center */}
                 <g style={{ transform: 'rotate(90deg) translate(0px, -36px)' }}>
-                  <text x="18" y="16" fontSize="5" fontWeight="700" fill="var(--gray-800)" textAnchor="middle">
+                  <text x="18" y="16" fontSize="5" fontWeight="700" fill="white" textAnchor="middle">
                     {totalDeptDoctors}
                   </text>
-                  <text x="18" y="22" fontSize="2.5" fontWeight="600" fill="var(--gray-400)" textAnchor="middle" style={{ letterSpacing: '0.02em' }}>
+                  <text x="18" y="22" fontSize="2.5" fontWeight="600" fill="var(--text-secondary)" textAnchor="middle" style={{ letterSpacing: '0.02em' }}>
                     DOCTORS
                   </text>
                 </g>
@@ -166,8 +165,8 @@ const AdminAnalytics = ({ queueData, stats }) => {
               {donutChartData.map((dept, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}>
                   <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: donutColors[idx % donutColors.length] }} />
-                  <span style={{ fontWeight: 600, color: 'var(--gray-600)' }}>{dept.label}:</span>
-                  <span style={{ fontWeight: 700 }}>{dept.value} docs ({Math.round((dept.value / totalDeptDoctors) * 100)}%)</span>
+                  <span style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{dept.label}:</span>
+                  <span style={{ fontWeight: 700, color: 'white' }}>{dept.value} docs ({Math.round((dept.value / totalDeptDoctors) * 100)}%)</span>
                 </div>
               ))}
             </div>
