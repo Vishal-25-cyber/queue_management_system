@@ -151,9 +151,13 @@ const AdminAppointmentManagement = ({ setAlert, fetchAll: refreshStats }) => {
                       <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>{app.doctorId?.department?.name || app.doctorId?.department}</div>
                     </td>
                     <td>
-                      <strong>{new Date(app.appointmentDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</strong>
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--gray-500)', fontWeight: 600, marginTop: '0.2rem' }}>
-                        <Clock size={12} /> {app.timeSlot}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                        <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                          {new Date(app.appointmentDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </strong>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                          <Clock size={13} style={{ color: 'var(--primary)' }} /> {app.timeSlot}
+                        </div>
                       </div>
                     </td>
                     <td>
