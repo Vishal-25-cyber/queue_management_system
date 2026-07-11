@@ -40,6 +40,11 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
   const [showReschedModal, setShowReschedModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
 
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewDoctorId, setReviewDoctorId] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+
   useEffect(() => {
     fetchAppointments();
     fetchDoctors();
@@ -114,6 +119,34 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
     } catch (err) {
       setAlert({ type: 'error', message: err.response?.data?.message || 'Rescheduling failed.' });
     } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const openReviewModal = (doctorId) => {
+    setReviewDoctorId(doctorId);
+    setRating(5);
+    setComment('');
+    setShowReviewModal(true);
+  };
+
+  const submitReview = async (e) => {
+    e.preventDefault();
+    if (!reviewDoctorId || !rating) return;
+    setActionLoading(true);
+    try {
+      import('../services/api').then(module => {
+        return module.patientService.addReview(reviewDoctorId, rating, comment);
+      }).then(() => {
+        setAlert({ type: 'success', message: '⭐ Review submitted successfully!' });
+        setShowReviewModal(false);
+      }).catch(err => {
+        setAlert({ type: 'error', message: err.response?.data?.message || 'Failed to submit review.' });
+      }).finally(() => {
+        setActionLoading(false);
+      });
+    } catch (err) {
+      setAlert({ type: 'error', message: 'Failed to submit review.' });
       setActionLoading(false);
     }
   };
@@ -467,6 +500,14 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
                             </button>
                           </div>
                         )}
+
+                        {app.status === 'completed' && (
+                          <div style={{ marginTop: canAct || app.symptoms ? '0.6rem' : 0 }}>
+                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app.doctorId?._id || app.doctorId)} disabled={actionLoading}>
+                              ⭐ Rate Doctor
+                            </button>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -633,6 +674,65 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
           </div>
         </div>
       )}
+
+      {/* Review Modal */}
+      {showReviewModal && (
+        <div className="resched-overlay">
+          <div className="resched-modal">
+            <div className="resched-header">
+              <h3 className="resched-title">Rate Doctor</h3>
+              <button className="resched-close" onClick={() => setShowReviewModal(false)}><X size={18} /></button>
+            </div>
+            <form onSubmit={submitReview} className="resched-body">
+              <div className="resched-field">
+                <label className="resched-label">Rating (1-5)</label>
+                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'space-between', padding: '0.5rem 0' }}>
+                  {[1, 2, 3, 4, 5].map(num => (
+                    <button
+                      type="button"
+                      key={num}
+                      onClick={() => setRating(num)}
+                      style={{
+                        flex: 1,
+                        padding: '0.75rem',
+                        background: rating === num ? 'rgba(234,179,8,0.2)' : 'rgba(255,255,255,0.05)',
+                        border: `1px solid ${rating === num ? '#eab308' : 'rgba(255,255,255,0.1)'}`,
+                        borderRadius: '8px',
+                        color: rating === num ? '#eab308' : 'white',
+                        fontSize: '1.25rem',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      {rating >= num ? '★' : '☆'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="resched-field">
+                <label className="resched-label">Comment (optional)</label>
+                <textarea
+                  className="resched-input"
+                  rows="3"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Share your experience..."
+                  style={{ resize: 'none' }}
+                />
+              </div>
+
+              <div className="resched-footer">
+                <button type="button" className="resched-btn resched-btn-cancel" onClick={() => setShowReviewModal(false)}>Cancel</button>
+                <button type="submit" className="resched-btn resched-btn-save" disabled={actionLoading}>
+                  {actionLoading ? 'Submitting...' : 'Submit Review'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

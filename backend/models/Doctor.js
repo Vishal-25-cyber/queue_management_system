@@ -50,6 +50,17 @@ const doctorSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
+    totalRatings: {
+      type: Number,
+      default: 1, // Start with 1 to account for the default 4.5 rating
+    },
+    reviews: [{
+      patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      patientName: String,
+      rating: Number,
+      comment: String,
+      createdAt: { type: Date, default: Date.now }
+    }],
     isActive: {
       type: Boolean,
       default: true,

@@ -240,3 +240,65 @@ exports.cancelToken = async (req, res, next) => {
     });
   }
 };
+
+// @desc    Add review and rating for a doctor
+// @route   POST /api/patients/add-review
+// @access  Private (Patient only)
+exports.addReview = async (req, res) => {
+  try {
+    const { doctorId, rating, comment } = req.body;
+    const patientId = req.user.id;
+
+    if (!doctorId || !rating) {
+      return res.status(400).json({
+        success: false,
+        message: 'Doctor ID and rating are required',
+      });
+    }
+
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: 'Doctor not found',
+      });
+    }
+
+    // Check if user already reviewed
+    const existingReview = doctor.reviews.find(r => r.patientId.toString() === patientId.toString());
+    if (existingReview) {
+      return res.status(400).json({
+        success: false,
+        message: 'You have already reviewed this doctor',
+      });
+    }
+
+    const newReview = {
+      patientId,
+      patientName: req.user.name,
+      rating: Number(rating),
+      comment: comment || '',
+    };
+
+    doctor.reviews.push(newReview);
+
+    // Update overall rating
+    const totalCurrentScore = doctor.rating * doctor.totalRatings;
+    doctor.totalRatings += 1;
+    const newRating = (totalCurrentScore + Number(rating)) / doctor.totalRatings;
+    doctor.rating = Math.round(newRating * 10) / 10;
+
+    await doctor.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Review added successfully',
+      data: doctor,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

@@ -10,5 +10,6 @@ router.post('/book-token', auth, authorize('patient'), patientController.bookTok
 router.get('/my-token', auth, authorize('patient'), patientController.getMyToken);
 router.get('/queue-status/:tokenId', auth, authorize('patient'), patientController.getQueueStatus);
 router.put('/cancel-token/:tokenId', auth, authorize('patient'), patientController.cancelToken);
+router.post('/add-review', auth, authorize('patient'), patientController.addReview);
 
 module.exports = router;
