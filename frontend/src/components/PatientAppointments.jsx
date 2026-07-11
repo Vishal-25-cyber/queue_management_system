@@ -505,20 +505,7 @@ const PatientAppointments = ({ setAlert, showBooking = true, historyMode = false
                           </div>
                         )}
 
-                        {app.status === 'completed' && !app.isReviewed && (
-                          <div style={{ marginTop: canAct || app.symptoms ? '0.6rem' : 0 }}>
-                            <button className="apt-action-btn apt-action-btn--secondary" style={{ width: '100%', background: 'rgba(234,179,8,0.1)', color: '#eab308', borderColor: 'rgba(234,179,8,0.3)', justifyContent: 'center' }} onClick={() => openReviewModal(app)} disabled={actionLoading}>
-                              ⭐ Rate Doctor
-                            </button>
-                          </div>
-                        )}
-                        {app.status === 'completed' && app.isReviewed && (
-                          <div style={{ marginTop: canAct || app.symptoms ? '0.6rem' : 0 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', padding: '0.45rem', background: 'rgba(255,255,255,0.02)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                              <Award size={12} style={{ color: '#eab308' }} /> You rated this {app.rating}⭐
-                            </div>
-                          </div>
-                        )}
+                        {/* Rating option removed from Book Appointment tab, kept only in History */}
                       </div>
                     );
                   })}
