@@ -13,7 +13,7 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  HeartPulse,
+  Activity,
   LayoutDashboard,
   CalendarPlus,
   History,
@@ -90,10 +90,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         {/* Brand */}
         <div className="sidebar-brand">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: 0 }}>
-            <HeartPulse size={28} className="sidebar-logo-svg" style={{ color: '#22d3ee', flexShrink: 0 }} />
+            <Activity size={28} className="sidebar-logo-svg" style={{ color: '#22d3ee', flexShrink: 0 }} />
             {!isCollapsed && (
               <div className="sidebar-brand-text">
-                <h3>MediQueue</h3>
+                <h3>CareSync</h3>
                 <span>Healthcare portal</span>
               </div>
             )}

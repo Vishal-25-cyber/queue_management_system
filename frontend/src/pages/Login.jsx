@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HeartPulse, Zap, Stethoscope, Ticket, BarChart3, Shield, User } from 'lucide-react';
+import { Activity, Zap, Stethoscope, Ticket, BarChart3, Shield, User } from 'lucide-react';
 import '../styles/AuthPages.css';
 
 const Login = () => {
@@ -68,10 +68,10 @@ const Login = () => {
 
         <div className="auth-brand-logo">
           <div className="auth-brand-logo-icon">
-            <HeartPulse size={28} style={{ color: '#22d3ee' }} />
+            <Activity size={28} style={{ color: '#22d3ee' }} />
           </div>
           <div className="auth-brand-logo-text">
-            MediQueue
+            CareSync
             <span>Hospital Management System</span>
           </div>
         </div>

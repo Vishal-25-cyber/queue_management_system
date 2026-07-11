@@ -208,7 +208,7 @@ const PatientProfile = ({ setAlert }) => {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Support Email</span>
-                <span style={{ color: 'var(--text-primary)' }}>support@mediqueue.com</span>
+                <span style={{ color: 'var(--text-primary)' }}>support@caresync.com</span>
               </div>
             </div>
           </div>

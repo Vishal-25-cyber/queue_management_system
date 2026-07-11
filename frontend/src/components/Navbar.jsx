@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  HeartPulse, 
+  Activity, 
   Calendar, 
   ClipboardList, 
   BarChart3, 
@@ -41,10 +41,10 @@ const Navbar = () => {
         {/* Brand */}
         <div className="navbar-brand">
           <div className="navbar-brand-icon">
-            <HeartPulse size={20} style={{ color: 'white' }} />
+            <Activity size={20} style={{ color: 'white' }} />
           </div>
           <div className="navbar-brand-text">
-            <span className="navbar-brand-title">MediQueue</span>
+            <span className="navbar-brand-title">CareSync</span>
             <span className="navbar-brand-sub">Hospital Management</span>
           </div>
         </div>

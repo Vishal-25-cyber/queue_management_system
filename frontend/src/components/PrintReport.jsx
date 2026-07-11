@@ -18,7 +18,7 @@ const PrintReport = ({ title, headers, keys, data, onClose }) => {
           <div className="print-brand">
             <span className="print-brand-icon">🏥</span>
             <div className="print-brand-text">
-              <h3>MediQueue Hospital Management</h3>
+              <h3>CareSync Hospital Management</h3>
               <span>Executive Data Reports</span>
             </div>
           </div>
@@ -53,8 +53,8 @@ const PrintReport = ({ title, headers, keys, data, onClose }) => {
         </table>
 
         <div className="print-report-footer">
-          <p>This document is a system-generated audit report from MediQueue Hospital Management Portal.</p>
-          <p className="print-copyright">© {new Date().getFullYear()} MediQueue Hospital. Confidential report.</p>
+          <p>This document is a system-generated audit report from CareSync Hospital Management Portal.</p>
+          <p className="print-copyright">© {new Date().getFullYear()} CareSync Hospital. Confidential report.</p>
         </div>
       </div>
     </div>

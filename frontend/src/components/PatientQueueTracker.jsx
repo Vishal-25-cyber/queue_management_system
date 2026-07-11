@@ -94,7 +94,7 @@ const PatientQueueTracker = ({ myToken, handleCancel }) => {
           <div style={{ fontSize: '3.5rem', fontWeight: 900, lineHeight: 1.1, margin: '0.25rem 0' }}>
             {myToken.tokenNumber}
           </div>
-          <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>MediQueue System</span>
+          <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>CareSync System</span>
         </div>
       </div>
     </div>

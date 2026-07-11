@@ -52,25 +52,25 @@ const AdminReports = ({ setAlert }) => {
     switch (activeReport) {
       case 'patients':
         return {
-          title: 'MediQueue - Patients Summary Report',
+          title: 'CareSync - Patients Summary Report',
           headers: ['Patient Name', 'Email', 'Phone Contact', 'Age', 'Gender', 'Status', 'Registered Date', 'Total Appts', 'Total Checkins'],
           keys: ['Name', 'Email', 'Phone', 'Age', 'Gender', 'Status', 'RegisteredDate', 'TotalAppointments', 'TotalTokens']
         };
       case 'appointments':
         return {
-          title: 'MediQueue - Appointments Log Report',
+          title: 'CareSync - Appointments Log Report',
           headers: ['Patient Name', 'Assigned Doctor', 'Specialty Unit', 'Appt Date', 'Time Slot', 'Lifecycle Status', 'Consult Fee', 'Payment Status'],
           keys: ['PatientName', 'DoctorName', 'Department', 'AppointmentDate', 'TimeSlot', 'Status', 'Fee', 'Payment']
         };
       case 'queues':
         return {
-          title: 'MediQueue - Today\'s Queue Performance Report',
+          title: 'CareSync - Today\'s Queue Performance Report',
           headers: ['Token No.', 'Patient Name', 'Doctor Name', 'Department', 'Date', 'Queue Status', 'Booked Time', 'Called Time', 'Wait Duration (min)'],
           keys: ['TokenNumber', 'PatientName', 'DoctorName', 'Department', 'Date', 'Status', 'BookedAt', 'CalledAt', 'WaitingTimeMinutes']
         };
       case 'doctors':
         return {
-          title: 'MediQueue - Doctor Efficiency Report',
+          title: 'CareSync - Doctor Efficiency Report',
           headers: ['Practitioner', 'Department Specialty', 'Qualifications', 'Exp (Yrs)', 'Fee (₹)', 'Consultations', 'Rating', 'Status'],
           keys: ['Name', 'Department', 'Qualifications', 'ExperienceYears', 'Fee', 'ConsultationsCompleted', 'Rating', 'Status']
         };

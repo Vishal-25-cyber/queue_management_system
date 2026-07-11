@@ -108,7 +108,7 @@ const Register = () => {
         <div className="auth-brand-logo">
           <div className="auth-brand-logo-icon">🏥</div>
           <div className="auth-brand-logo-text">
-            MediQueue
+            CareSync
             <span>Hospital Management System</span>
           </div>
         </div>
@@ -145,7 +145,7 @@ const Register = () => {
         <div className="auth-form-wrapper">
           <div className="auth-form-header">
             <h2>Create account</h2>
-            <p>Register to get started with MediQueue</p>
+            <p>Register to get started with CareSync</p>
           </div>
 
           {/* Role selector */}
