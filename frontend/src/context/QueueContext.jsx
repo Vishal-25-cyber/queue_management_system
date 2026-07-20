@@ -11,7 +11,7 @@ export const useQueue = () => {
 
 // Strip "/api" suffix from VITE_API_URL to get socket base URL
 const getSocketUrl = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://queue-management-system-chxh.onrender.com/api';
   return apiUrl.replace(/\/api\/?$/, '');
 };
 
