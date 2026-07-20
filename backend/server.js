@@ -22,6 +22,12 @@ const reportRoutes = require('./routes/reportRoutes');
 
 const { PORT, FRONTEND_URL } = require('./config/env');
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://queue-management-system-1-fysp.onrender.com',
+  FRONTEND_URL
+].filter(Boolean);
+
 const app = express();
 
 // Create HTTP server
@@ -30,7 +36,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = socketIo(server, {
   cors: {
-    origin: FRONTEND_URL,
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
 });
@@ -44,7 +50,7 @@ connectDB().then(() => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: FRONTEND_URL }));
+app.use(cors({ origin: allowedOrigins }));
 
 // Routes
 app.use('/api/auth', authRoutes);
